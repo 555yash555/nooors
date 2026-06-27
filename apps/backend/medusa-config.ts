@@ -11,6 +11,12 @@ module.exports = defineConfig({
       authCors: process.env.AUTH_CORS!,
       jwtSecret: process.env.JWT_SECRET,
       cookieSecret: process.env.COOKIE_SECRET,
-    }
-  }
+    },
+  },
+  admin: {
+    // Change the URL where the dashboard lives. Default is "/app".
+    // Set to "/atelier" so the admin lives at /atelier instead of /app.
+    path: "/app",
+    // path: "/atelier",
+  },
 })
