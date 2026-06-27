@@ -55,3 +55,6 @@ yarn-error.log*
 ehthumbs.db
 Thumbs.db
 **/.DS_Store
+
+# Local Claude Code config (skills, settings) — kept out of public repo
+/.claude/
