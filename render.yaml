@@ -6,8 +6,10 @@ services:
     region: oregon
     # Monorepo: install at root (hoists deps), then cd into the backend
     # workspace so `medusa build` registers ts-node from the correct cwd.
-    # NPM_CONFIG_PRODUCTION=false ensures devDeps (ts-node) install during build
-    buildCommand: NPM_CONFIG_PRODUCTION=false npm install --include=dev --legacy-peer-deps && cd apps/backend && npx medusa build
+    # NPM_CONFIG_PRODUCTION=false ensures devDeps (ts-node) install during build.
+    # Migrations run after build so every deploy idempotently brings the DB to the
+    # current schema. Safe because medusa db:migrate is no-op if already migrated.
+    buildCommand: NPM_CONFIG_PRODUCTION=false npm install --include=dev --legacy-peer-deps && cd apps/backend && npx medusa build && npx medusa db:migrate
     startCommand: cd apps/backend && npx medusa start
     autoDeploy: true
     envVars:
