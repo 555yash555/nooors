@@ -87,47 +87,49 @@ const MobileActions: React.FC<MobileActionsProps> = ({
           leaveTo="opacity-0 translate-y-3"
         >
           <div
-            className="bg-ivory/95 backdrop-blur-md border-t border-gold/25 px-4 py-3 flex items-center justify-between gap-4"
+            className="bg-ink text-ivory px-4 py-4 flex items-center justify-between gap-3"
             data-testid="mobile-actions"
-            style={{ paddingBottom: "calc(0.75rem + env(safe-area-inset-bottom))" }}
+            style={{
+              paddingBottom: "calc(1rem + env(safe-area-inset-bottom))",
+              boxShadow: "0 -10px 30px -10px rgba(0,0,0,0.35)",
+            }}
           >
-            {/* Left: title + price stacked */}
-            <div className="flex-1 min-w-0 flex flex-col">
+            {/* Left: price + tiny label */}
+            <div className="flex flex-col min-w-0">
               <span
-                className="font-serif text-base text-ink truncate"
+                className="text-[0.55rem] tracking-[0.35em] uppercase text-gold-light"
                 data-testid="mobile-title"
               >
-                {product.title}
+                {allChosen ? "Total" : "From"}
               </span>
               {selectedPrice && (
-                <span className="font-sans text-[0.85rem] tracking-[0.12em] text-smoke">
+                <span className="font-sans text-[1rem] tracking-[0.08em] text-ivory whitespace-nowrap">
                   {selectedPrice.price_type === "sale" && (
-                    <span className="line-through mr-2">
+                    <span className="line-through mr-2 text-ivory/50 text-sm">
                       {selectedPrice.original_price}
                     </span>
                   )}
-                  <span
-                    className={clx(
-                      selectedPrice.price_type === "sale" && "text-gold"
-                    )}
-                  >
-                    {selectedPrice.calculated_price}
-                  </span>
+                  {selectedPrice.calculated_price}
                 </span>
               )}
             </div>
 
-            {/* Right: single primary CTA */}
-            <Button
+            {/* Right: single big CTA — takes most of the bar */}
+            <button
               onClick={onCtaClick}
               disabled={isAdding || (allChosen && (!inStock || !variant))}
-              variant="primary"
-              className="!btn--small shrink-0"
-              isLoading={isAdding}
+              className={clx(
+                "flex-1 max-w-[60%] h-12 font-sans text-[0.7rem] tracking-[0.25em] uppercase",
+                "transition-all duration-500 ease-silk",
+                "disabled:opacity-50",
+                allChosen && inStock && variant
+                  ? "bg-gold text-ink hover:bg-gold-light"
+                  : "bg-ivory text-ink"
+              )}
               data-testid="mobile-cart-button"
             >
-              {ctaLabel}
-            </Button>
+              {isAdding ? "…" : ctaLabel}
+            </button>
           </div>
         </Transition>
       </div>

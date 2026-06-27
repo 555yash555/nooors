@@ -232,7 +232,9 @@ export default function ProductActions({
           inStock={inStock}
           handleAddToCart={handleAddToCart}
           isAdding={isAdding}
-          show={!inView}
+          // Always show on mobile (was: only show when desktop block scrolled
+          // off-screen — caused the slim bar to be invisible at top-of-PDP).
+          show={true}
           optionsDisabled={!!disabled || isAdding}
         />
       </div>
