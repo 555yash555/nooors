@@ -1,6 +1,5 @@
 import {
   FloatAccentCircles,
-  FloatAccentStar,
   Ornament,
 } from "@modules/common/components/noors"
 
@@ -30,11 +29,6 @@ export default function Newsletter() {
         style={{ top: "3rem", left: "8%", opacity: 0.25 }}
         className="float-accent--slow"
         size={80}
-      />
-      <FloatAccentStar
-        style={{ bottom: "3rem", right: "10%", opacity: 0.3 }}
-        className="float-accent--reverse"
-        size={60}
       />
 
       <div className="newsletter__inner relative z-[2] mx-auto max-w-[600px] text-center">

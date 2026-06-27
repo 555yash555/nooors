@@ -1,9 +1,6 @@
 import Image from "next/image"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
-import {
-  FloatAccentCircles,
-  FloatAccentStar,
-} from "@modules/common/components/noors"
+import { FloatAccentCircles } from "@modules/common/components/noors"
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || ""
 
@@ -123,11 +120,6 @@ const Hero = () => {
         style={{ top: "18%", right: "8%" }}
         className="float-accent--slow"
         size={60}
-      />
-      <FloatAccentStar
-        style={{ bottom: "15%", left: "55%" }}
-        className="float-accent--reverse"
-        size={44}
       />
     </section>
   )
