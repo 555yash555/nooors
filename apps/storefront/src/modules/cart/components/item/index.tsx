@@ -65,19 +65,22 @@ const Item = ({ item, type = "full", currencyCode }: ItemProps) => {
 
       {/* Right side — title/meta + qty/price */}
       <div className="flex-1 min-w-0 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-        {/* Title + variant */}
+        {/* Title + variant — title forced to its own line so variant
+            never wedges into a wrap. */}
         <div className="min-w-0 flex-1">
           <LocalizedClientLink
             href={`/products/${item.product_handle}`}
-            className="font-serif text-ink text-base sm:text-lg leading-tight hover:text-gold transition-colors"
+            className="block font-serif text-ink text-base sm:text-lg leading-tight hover:text-gold transition-colors"
             data-testid="product-title"
           >
             {item.product_title}
           </LocalizedClientLink>
-          <LineItemOptions
-            variant={item.variant}
-            data-testid="product-variant"
-          />
+          <div className="block">
+            <LineItemOptions
+              variant={item.variant}
+              data-testid="product-variant"
+            />
+          </div>
 
           {/* Mobile-only unit price line */}
           {type === "full" && (

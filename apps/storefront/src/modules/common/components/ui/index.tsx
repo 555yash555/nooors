@@ -411,13 +411,20 @@ type CheckboxProps = Omit<InputHTMLAttributes<HTMLInputElement>, "type"> & {
 export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
   ({ className, label, id, ...props }, ref) => {
     return (
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-3">
         <input
           ref={ref}
           type="checkbox"
           id={id}
           className={clsx(
-            "h-4 w-4 rounded border-gray-300 text-gray-900 focus:ring-gray-900",
+            // NOOORS checkbox — gold accent replacing native blue
+            "h-4 w-4 appearance-none rounded-none border border-ink/30",
+            "bg-transparent cursor-pointer transition-colors duration-200",
+            "checked:bg-ink checked:border-ink",
+            "focus:outline-none focus:ring-1 focus:ring-gold focus:ring-offset-2",
+            // gold tick using a clipped background image
+            "checked:bg-[length:14px_14px] checked:bg-no-repeat checked:bg-center",
+            "checked:[background-image:url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23b89968' stroke-width='2'><path d='M3 8l3 3 7-7'/></svg>\")]",
             className
           )}
           {...props}
