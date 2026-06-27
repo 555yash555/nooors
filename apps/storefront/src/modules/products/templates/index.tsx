@@ -20,8 +20,8 @@ type ProductTemplateProps = {
 }
 
 /**
- * NOOORS PDP — breadcrumb + 2-col (gallery left, sticky info right).
- * Related products in a NOOORS rail below.
+ * Elora PDP — breadcrumb + 2-col (gallery left, sticky info right).
+ * Related products in a Elora rail below.
  */
 const ProductTemplate: React.FC<ProductTemplateProps> = ({
   product,

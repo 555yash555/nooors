@@ -12,7 +12,7 @@ export const runtime = "nodejs"
 
 export function GET() {
   return NextResponse.json(
-    { ok: true, service: "nooors-storefront", ts: new Date().toISOString() },
+    { ok: true, service: "elora-storefront", ts: new Date().toISOString() },
     { status: 200 }
   )
 }

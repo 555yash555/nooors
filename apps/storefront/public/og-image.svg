@@ -6,8 +6,8 @@
       <stop offset="100%" stop-color="#0f0e0b"/>
     </linearGradient>
     <radialGradient id="glow" cx="50%" cy="50%" r="60%">
-      <stop offset="0%" stop-color="#b89968" stop-opacity="0.18"/>
-      <stop offset="100%" stop-color="#b89968" stop-opacity="0"/>
+      <stop offset="0%" stop-color="#d4b787" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#d4b787" stop-opacity="0"/>
     </radialGradient>
     <filter id="grain">
       <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" stitchTiles="stitch"/>
@@ -28,41 +28,43 @@
     <text x="0" y="0" fill="#d4b787"
           font-family="Helvetica, Arial, sans-serif"
           font-size="14" letter-spacing="6">
-      S/S 2025 · ATELIER · PARIS
+      S/S 2025 · ATELIER
     </text>
   </g>
 
-  <g transform="translate(600,290)" text-anchor="middle">
+  <!-- Giant white "E" backdrop -->
+  <text x="600" y="380" text-anchor="middle" fill="#fbf8f3" opacity="0.07"
+        font-family="Georgia, serif" font-weight="400" font-size="600">E</text>
+
+  <!-- Script wordmark -->
+  <g transform="translate(600,330)" text-anchor="middle">
     <text x="0" y="0" fill="#fbf8f3"
-          font-family="'Cormorant Garamond', Georgia, serif"
-          font-weight="300" font-size="170" letter-spacing="22">
-      NOOORS
+          font-family="Allura, 'Brush Script MT', cursive"
+          font-style="italic" font-weight="400"
+          font-size="220">
+      elora
     </text>
   </g>
 
-  <g transform="translate(600,365)" text-anchor="middle">
-    <text x="0" y="0" fill="#d4b787"
-          font-family="'Cormorant Garamond', Georgia, serif"
-          font-style="italic" font-weight="300" font-size="30">
-      Dressed in Silence
-    </text>
-  </g>
+  <!-- Flourish line through "elora" -->
+  <path d="M 280 350 C 380 380, 600 320, 920 350"
+        fill="none" stroke="#d4b787" stroke-width="1.2" opacity="0.7"/>
 
-  <g transform="translate(600,420)">
-    <line x1="-90" y1="0" x2="-20" y2="0" stroke="#b89968" stroke-width="0.8"/>
+  <g transform="translate(600,440)">
+    <line x1="-110" y1="0" x2="-25" y2="0" stroke="#b89968" stroke-width="0.8"/>
     <g transform="translate(0,0) rotate(45)">
       <rect x="-6" y="-6" width="12" height="12"
             fill="none" stroke="#b89968" stroke-width="0.8"/>
       <rect x="-3" y="-3" width="6" height="6" fill="#b89968"/>
     </g>
-    <line x1="20" y1="0" x2="90" y2="0" stroke="#b89968" stroke-width="0.8"/>
+    <line x1="25" y1="0" x2="110" y2="0" stroke="#b89968" stroke-width="0.8"/>
   </g>
 
   <g transform="translate(600,500)" text-anchor="middle">
     <text x="0" y="0" fill="#e8d4a8"
           font-family="Helvetica, Arial, sans-serif"
-          font-size="13" letter-spacing="8">
-      LUXURY  WOMEN'S  FASHION  ·  PARIS  COUTURE
+          font-size="14" letter-spacing="9">
+      BY  HARNOOR
     </text>
   </g>
 </svg>

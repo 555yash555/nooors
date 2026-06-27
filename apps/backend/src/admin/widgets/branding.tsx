@@ -2,29 +2,29 @@ import { defineWidgetConfig } from "@medusajs/admin-sdk"
 import { useEffect } from "react"
 
 /**
- * NOOORS Admin Debrand.
+ * Elora Admin Debrand.
  *
  * A "zone-mounted" widget that injects global CSS + sets document.title +
  * swaps the favicon. Mounting on `login.before` guarantees it runs before any
  * branded UI paints. The injected <style> persists across SPA navigation.
  */
-const NOOORS_BRAND = {
-  name: "NOOORS",
-  tagline: "Atelier · Paris",
-  // Tiny inline SVG favicon — replace with your real logo data URI if you want
+const ELORA_BRAND = {
+  name: "Elora",
+  tagline: "by Harnoor",
   faviconDataUri:
     "data:image/svg+xml;utf8," +
     encodeURIComponent(
       `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
          <rect width="32" height="32" rx="6" fill="#1a1814"/>
-         <text x="16" y="22" font-family="Georgia, serif" font-size="18"
-               font-weight="300" text-anchor="middle" fill="#b89968">N</text>
+         <text x="16" y="23" font-family="Allura, 'Brush Script MT', cursive"
+               font-style="italic" font-size="26" font-weight="400"
+               text-anchor="middle" fill="#d4b787">e</text>
        </svg>`
     ),
 }
 
 const css = `
-  /* === NOOORS admin debrand === */
+  /* === Elora admin debrand === */
 
   /* Hide Medusa wordmark images / svgs by alt or aria-label */
   img[alt*="Medusa" i],
@@ -43,9 +43,9 @@ const css = `
 
 // Plain-text replacements that we apply via DOM walking (CSS can't match text).
 const TEXT_REPLACEMENTS: Array<[RegExp, string]> = [
-  [/Welcome to Medusa/g, `Welcome to ${NOOORS_BRAND.name}`],
+  [/Welcome to Medusa/g, `Welcome to ${ELORA_BRAND.name}`],
   [/Sign in to access the account area/g, "Sign in to access the atelier"],
-  [/Medusa Admin/g, `${NOOORS_BRAND.name} Atelier`],
+  [/Medusa Admin/g, `${ELORA_BRAND.name} Atelier`],
   [/Made with Medusa/g, ""],
   [/Powered by Medusa/g, ""],
 ]
@@ -70,7 +70,7 @@ const Debrand = () => {
 
     // 1. Browser tab title
     const setTitle = () => {
-      document.title = NOOORS_BRAND.name + " · Atelier"
+      document.title = ELORA_BRAND.name + " · Atelier"
     }
     setTitle()
     const titleObserver = new MutationObserver(setTitle)
@@ -85,7 +85,7 @@ const Debrand = () => {
       icon.rel = "icon"
       document.head.appendChild(icon)
     }
-    icon.href = NOOORS_BRAND.faviconDataUri
+    icon.href = ELORA_BRAND.faviconDataUri
     icon.removeAttribute("data-placeholder-favicon")
 
     // 3. Inject CSS once

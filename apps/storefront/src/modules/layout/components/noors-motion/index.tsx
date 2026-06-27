@@ -3,7 +3,7 @@
 import { useEffect } from "react"
 
 /**
- * NOOORS — Global motion controller (client-only).
+ * Elora — Global motion controller (client-only).
  * Ports the imperative behaviours from ecom/canvas/script.js:
  *  - Custom cursor (dot + ring with rAF lag)
  *  - Magnetic buttons (.magnetic)

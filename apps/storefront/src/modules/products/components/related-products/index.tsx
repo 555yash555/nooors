@@ -10,7 +10,7 @@ type RelatedProductsProps = {
 }
 
 /**
- * NOOORS related rail — "Complete the Look".
+ * Elora related rail — "Complete the Look".
  */
 export default async function RelatedProducts({
   product,

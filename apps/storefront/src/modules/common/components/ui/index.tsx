@@ -61,7 +61,7 @@ export const Heading = forwardRef<HTMLHeadingElement, HeadingProps>(
 )
 Heading.displayName = "Heading"
 
-// Button Component — NOOORS .btn system
+// Button Component — Elora .btn system
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: "primary" | "secondary" | "transparent" | "gold" | "ghost"
   size?: "small" | "medium" | "large"
@@ -417,7 +417,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
           type="checkbox"
           id={id}
           className={clsx(
-            // NOOORS checkbox — gold accent replacing native blue
+            // Elora checkbox — gold accent replacing native blue
             "h-4 w-4 appearance-none rounded-none border border-ink/30",
             "bg-transparent cursor-pointer transition-colors duration-200",
             "checked:bg-ink checked:border-ink",

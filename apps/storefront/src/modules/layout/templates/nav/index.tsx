@@ -9,7 +9,7 @@ import { listRegions } from "@lib/data/regions"
 import { StoreRegion } from "@medusajs/types"
 
 /**
- * NOOORS Nav — fixed, transparent over hero; .nav--scrolled state
+ * Elora Nav — fixed, transparent over hero; .nav--scrolled state
  * is toggled by NoorsMotion when window.scrollY > 80.
  */
 export default async function Nav() {
@@ -78,13 +78,18 @@ export default async function Nav() {
           />
         </div>
 
-        {/* CENTER — Logo */}
+        {/* CENTER — Wordmark: script "elora" with tracked "by Harnoor" subtitle */}
         <LocalizedClientLink
           href="/"
-          className="nav__logo font-serif font-light tracking-[0.35em] text-[1.6rem] uppercase"
+          className="nav__logo flex flex-col items-center leading-none"
           data-testid="nav-store-link"
         >
-          NOOORS
+          <span className="font-script text-[2.4rem] leading-[0.85]">
+            elora
+          </span>
+          <span className="text-[0.55rem] tracking-[0.45em] uppercase mt-0.5">
+            by Harnoor
+          </span>
         </LocalizedClientLink>
 
         {/* RIGHT — Links + actions */}

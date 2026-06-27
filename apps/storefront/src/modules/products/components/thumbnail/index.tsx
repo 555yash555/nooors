@@ -15,7 +15,7 @@ type ThumbnailProps = {
 }
 
 /**
- * NOOORS Thumbnail — aspect-[3/4] cream-bg frame with hover zoom.
+ * Elora Thumbnail — aspect-[3/4] cream-bg frame with hover zoom.
  * Used as the .shop-card__img-wrap → NoorsMotion adds 3D tilt automatically.
  */
 const Thumbnail: React.FC<ThumbnailProps> = ({

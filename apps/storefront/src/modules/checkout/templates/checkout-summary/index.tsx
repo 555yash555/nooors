@@ -4,7 +4,7 @@ import CartTotals from "@modules/common/components/cart-totals"
 import { HttpTypes } from "@medusajs/types"
 
 /**
- * NOOORS Checkout Summary panel — bone card with gold border, proper
+ * Elora Checkout Summary panel — bone card with gold border, proper
  * internal padding, scrollable item preview.
  */
 const CheckoutSummary = ({ cart }: { cart: HttpTypes.StoreCart }) => {

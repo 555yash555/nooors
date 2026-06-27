@@ -5,7 +5,7 @@ import Thumbnail from "../thumbnail"
 import PreviewPrice from "./price"
 
 /**
- * NOOORS ProductPreview — luxury shop-card with:
+ * Elora ProductPreview — luxury shop-card with:
  * - aspect-[3/4] image with hover zoom (Thumbnail provides .shop-card__img-wrap)
  * - quick-view overlay on hover
  * - badge (top-left)

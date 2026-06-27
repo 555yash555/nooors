@@ -23,7 +23,7 @@ type MobileActionsProps = {
 }
 
 /**
- * NOOORS mobile sticky bar.
+ * Elora mobile sticky bar.
  * Single slim row: price (left) + Add-to-Bag CTA (right).
  * Tapping the CTA when options aren't picked opens a bottom-sheet picker.
  */

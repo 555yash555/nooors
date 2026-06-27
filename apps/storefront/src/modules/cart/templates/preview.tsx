@@ -12,7 +12,7 @@ type ItemsTemplateProps = {
 }
 
 /**
- * NOOORS preview list — items render as divs so no <table>/<tbody> wrapper.
+ * Elora preview list — items render as divs so no <table>/<tbody> wrapper.
  * Scrolls when more than 4 lines.
  */
 const ItemsPreviewTemplate = ({ cart }: ItemsTemplateProps) => {

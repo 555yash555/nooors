@@ -16,7 +16,7 @@ const EmptyCartMessage = () => {
       </h2>
       <Ornament />
       <p className="font-serif italic font-light text-smoke leading-[1.7]">
-        Begin curating the season. Each piece is conceived in our Parisian
+        Begin curating the season. Each piece is conceived in our
         atelier — discover the new collection.
       </p>
       <LocalizedClientLink href="/store" className="btn btn--outline mt-8">

@@ -11,7 +11,7 @@ import PaginatedProducts from "./paginated-products"
 const BACKEND_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || ""
 
 /**
- * NOOORS store / listing page — page-hero band, filter bar, then shop grid.
+ * Elora store / listing page — page-hero band, filter bar, then shop grid.
  */
 const StoreTemplate = ({
   sortBy,

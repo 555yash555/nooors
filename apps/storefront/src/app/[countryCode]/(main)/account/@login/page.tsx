@@ -4,7 +4,7 @@ import LoginTemplate from "@modules/account/templates/login-template"
 
 export const metadata: Metadata = {
   title: "Sign in",
-  description: "Sign in to your NOOORS account.",
+  description: "Sign in to your Elora account.",
 }
 
 export default function Login() {

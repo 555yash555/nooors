@@ -6,7 +6,7 @@ import { SectionHeader } from "@modules/common/components/noors"
 import ProductPreview from "@modules/products/components/product-preview"
 
 /**
- * NOOORS Featured rail — asymmetric grid: 1 large + 2 small.
+ * Elora Featured rail — asymmetric grid: 1 large + 2 small.
  * Falls back to plain grid if fewer than 3 products.
  */
 export default async function ProductRail({

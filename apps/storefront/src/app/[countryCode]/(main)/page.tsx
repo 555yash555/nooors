@@ -11,9 +11,11 @@ import { listCollections } from "@lib/data/collections"
 import { getRegion } from "@lib/data/regions"
 
 export const metadata: Metadata = {
-  title: "NOOORS — Luxury Women's Fashion",
+  // Use the root layout's default title — avoids "Elora ... · Elora" doubling
+  // from the template "%s · Elora".
+  title: { absolute: "Elora by Harnoor — Luxury Women's Fashion" },
   description:
-    "A luxury women's fashion house. Discover couture gowns, tailored separates, and editorial pieces crafted for the modern woman.",
+    "Elora by Harnoor — luxury couture and editorial pieces, crafted with love.",
 }
 
 const MARQUEE_ITEMS = [

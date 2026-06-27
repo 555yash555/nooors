@@ -2,7 +2,7 @@ import { clx } from "@modules/common/components/ui"
 import { VariantPrice } from "types/global"
 
 /**
- * NOOORS PreviewPrice — inline span (no <p>) so it nests inside any heading row.
+ * Elora PreviewPrice — inline span (no <p>) so it nests inside any heading row.
  */
 export default async function PreviewPrice({ price }: { price: VariantPrice }) {
   if (!price) return null

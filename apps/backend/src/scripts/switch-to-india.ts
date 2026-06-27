@@ -22,10 +22,10 @@ import {
 } from "@medusajs/medusa/core-flows"
 
 /**
- * NOOORS — Switch the whole storefront to India / INR / ₹.
+ * Elora — Switch the whole storefront to India / INR / ₹.
  *
  * Wipes Europe region + EUR pricing, creates India region, INR shipping,
- * tax region, fulfillment service zone, and re-seeds the 6 NOOORS products
+ * tax region, fulfillment service zone, and re-seeds the 6 Elora products
  * with luxury INR prices.
  *
  * Run: npx medusa exec ./src/scripts/switch-to-india.ts
@@ -151,7 +151,7 @@ export default async function switchToIndia({ container }: ExecArgs) {
   const link = container.resolve(ContainerRegistrationKeys.LINK)
   const fulfillmentModuleService = container.resolve(Modules.FULFILLMENT)
 
-  logger.info("[NOOORS-IN] Starting India / INR switch")
+  logger.info("[Elora-IN] Starting India / INR switch")
 
   // -------- Make sure store supports INR --------
   const { data: stores } = await query.graph({
@@ -164,7 +164,7 @@ export default async function switchToIndia({ container }: ExecArgs) {
       (c: any) => c.currency_code === "inr"
     )
     if (!hasInr) {
-      logger.info("[NOOORS-IN] Adding INR to store supported currencies")
+      logger.info("[Elora-IN] Adding INR to store supported currencies")
       await updateStoresWorkflow(container).run({
         input: {
           selector: { id: store.id },
@@ -217,7 +217,7 @@ export default async function switchToIndia({ container }: ExecArgs) {
     await inventoryModuleService.listReservationItems({})
   if (reservations.length) {
     logger.info(
-      `[NOOORS-IN] Deleting ${reservations.length} inventory reservation(s)`
+      `[Elora-IN] Deleting ${reservations.length} inventory reservation(s)`
     )
     await inventoryModuleService.deleteReservationItems(
       reservations.map((r: any) => r.id)
@@ -225,7 +225,7 @@ export default async function switchToIndia({ container }: ExecArgs) {
   }
 
   // -------- Wipe products / categories / collections --------
-  logger.info("[NOOORS-IN] Wiping existing catalog")
+  logger.info("[Elora-IN] Wiping existing catalog")
   const { data: existingProducts } = await query.graph({
     entity: "product",
     fields: ["id"],
@@ -257,7 +257,7 @@ export default async function switchToIndia({ container }: ExecArgs) {
   }
 
   // -------- Wipe old shipping options + regions --------
-  logger.info("[NOOORS-IN] Wiping Europe region + shipping")
+  logger.info("[Elora-IN] Wiping Europe region + shipping")
   const { data: shippingOpts } = await query.graph({
     entity: "shipping_option",
     fields: ["id"],
@@ -279,7 +279,7 @@ export default async function switchToIndia({ container }: ExecArgs) {
   }
 
   // -------- Wipe + recreate fulfillment service zones --------
-  logger.info("[NOOORS-IN] Resetting fulfillment for India")
+  logger.info("[Elora-IN] Resetting fulfillment for India")
   const existingSets = await fulfillmentModuleService.listFulfillmentSets({})
   if (existingSets.length) {
     await fulfillmentModuleService.deleteFulfillmentSets(
@@ -304,7 +304,7 @@ export default async function switchToIndia({ container }: ExecArgs) {
   })
 
   // -------- Create India region (INR) --------
-  logger.info("[NOOORS-IN] Creating India region with INR")
+  logger.info("[Elora-IN] Creating India region with INR")
   const { result: regionResult } = await createRegionsWorkflow(container).run({
     input: {
       regions: [
@@ -324,11 +324,11 @@ export default async function switchToIndia({ container }: ExecArgs) {
       input: [{ country_code: "in", provider_id: "tp_system" }],
     })
   } catch (e: any) {
-    logger.info(`[NOOORS-IN] Tax region exists: ${e.message}`)
+    logger.info(`[Elora-IN] Tax region exists: ${e.message}`)
   }
 
   // -------- INR Shipping options --------
-  logger.info("[NOOORS-IN] Creating INR shipping options")
+  logger.info("[Elora-IN] Creating INR shipping options")
   await createShippingOptionsWorkflow(container).run({
     input: [
       {
@@ -380,7 +380,7 @@ export default async function switchToIndia({ container }: ExecArgs) {
       input: { id: stockLocation.id, add: [defaultSalesChannel.id] },
     })
   } catch (e: any) {
-    logger.info(`[NOOORS-IN] SC↔stock link existed: ${e.message}`)
+    logger.info(`[Elora-IN] SC↔stock link existed: ${e.message}`)
   }
 
   // -------- Categories --------
@@ -414,7 +414,7 @@ export default async function switchToIndia({ container }: ExecArgs) {
   const collection = createdCollections[0]
 
   // -------- Products (INR prices) --------
-  logger.info(`[NOOORS-IN] Seeding ${PRODUCTS.length} products in INR`)
+  logger.info(`[Elora-IN] Seeding ${PRODUCTS.length} products in INR`)
   const productsInput = PRODUCTS.map((p) => {
     const variants = SIZES.flatMap((size) =>
       p.colors.map((color) => ({
@@ -454,7 +454,7 @@ export default async function switchToIndia({ container }: ExecArgs) {
   const { result: createdProducts } = await createProductsWorkflow(
     container
   ).run({ input: { products: productsInput as any } })
-  logger.info(`[NOOORS-IN] Created ${createdProducts.length} products`)
+  logger.info(`[Elora-IN] Created ${createdProducts.length} products`)
 
   // -------- Inventory --------
   const { data: variantsWithInventory } = await query.graph({
@@ -482,8 +482,8 @@ export default async function switchToIndia({ container }: ExecArgs) {
     })
   }
 
-  logger.info("[NOOORS-IN] ✓ Store is now India / INR")
+  logger.info("[Elora-IN] ✓ Store is now India / INR")
   logger.info(
-    "[NOOORS-IN]   Set storefront NEXT_PUBLIC_DEFAULT_REGION=in and restart"
+    "[Elora-IN]   Set storefront NEXT_PUBLIC_DEFAULT_REGION=in and restart"
   )
 }

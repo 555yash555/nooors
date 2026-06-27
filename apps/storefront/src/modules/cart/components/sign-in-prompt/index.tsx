@@ -6,7 +6,7 @@ const SignInPrompt = () => {
     <div className="flex items-center justify-between gap-6 py-6 border-y border-gold/15">
       <div>
         <h2 className="font-serif font-light text-ink text-xl">
-          Already a NOOORS client?
+          Already a Elora client?
         </h2>
         <p className="font-serif italic font-light text-smoke mt-1 text-sm">
           Sign in for faster checkout and your wardrobe history.

@@ -83,6 +83,12 @@ module.exports = {
           "Georgia",
           "serif",
         ],
+        script: [
+          "var(--font-script)",
+          "Allura",
+          "Brush Script MT",
+          "cursive",
+        ],
       },
       transitionTimingFunction: {
         silk: "cubic-bezier(0.65, 0, 0.35, 1)",

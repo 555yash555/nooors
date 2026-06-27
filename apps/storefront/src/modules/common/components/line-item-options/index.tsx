@@ -7,7 +7,7 @@ type LineItemOptionsProps = {
 }
 
 /**
- * NOOORS line item meta — replaces ugly "Variant: XL / Sand" with a
+ * Elora line item meta — replaces ugly "Variant: XL / Sand" with a
  * tracked-uppercase gold caption.
  */
 const LineItemOptions = ({

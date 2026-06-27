@@ -6,7 +6,7 @@ type ShippingDetailsProps = {
 }
 
 /**
- * NOOORS delivery block — 3 labeled columns: address, contact, method.
+ * Elora delivery block — 3 labeled columns: address, contact, method.
  */
 const ShippingDetails = ({ order }: ShippingDetailsProps) => {
   const a = order.shipping_address

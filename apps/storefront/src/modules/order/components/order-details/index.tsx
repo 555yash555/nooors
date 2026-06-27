@@ -6,7 +6,7 @@ type OrderDetailsProps = {
 }
 
 /**
- * NOOORS order meta block — three labeled facts on a couture row.
+ * Elora order meta block — three labeled facts on a couture row.
  */
 const OrderDetails = ({ order, showStatus }: OrderDetailsProps) => {
   const formatStatus = (str: string) => {

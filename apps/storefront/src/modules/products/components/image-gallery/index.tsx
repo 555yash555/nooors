@@ -6,7 +6,7 @@ type ImageGalleryProps = {
 }
 
 /**
- * NOOORS PDP gallery — cream-bg frames, aspect-[3/4], stacked vertically.
+ * Elora PDP gallery — cream-bg frames, aspect-[3/4], stacked vertically.
  */
 const ImageGallery = ({ images }: ImageGalleryProps) => {
   if (!images.length) return null
@@ -23,7 +23,7 @@ const ImageGallery = ({ images }: ImageGalleryProps) => {
             <Image
               src={image.url}
               priority={index === 0}
-              alt={`NOOORS — product image ${index + 1}`}
+              alt={`Elora — product image ${index + 1}`}
               fill
               sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 60vw"
               className="object-cover object-center transition-transform duration-[1500ms] ease-silk"

@@ -4,7 +4,7 @@ import { getProductPrice } from "@lib/util/get-product-price"
 import { HttpTypes } from "@medusajs/types"
 
 /**
- * NOOORS PDP price — large sans, gold accent on sale.
+ * Elora PDP price — large sans, gold accent on sale.
  */
 export default function ProductPrice({
   product,

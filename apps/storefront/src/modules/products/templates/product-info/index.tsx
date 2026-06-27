@@ -6,7 +6,7 @@ type ProductInfoProps = {
 }
 
 /**
- * NOOORS PDP heading + intro: collection label, serif title, ornament, italic body.
+ * Elora PDP heading + intro: collection label, serif title, ornament, italic body.
  */
 const ProductInfo = ({ product }: ProductInfoProps) => {
   const meta = (product.metadata as any) || {}

@@ -37,7 +37,7 @@ export default async function OrderCompletedTemplate({
           </h1>
           <Ornament />
           <p className="font-serif italic font-light text-smoke leading-[1.7] mt-4 text-base">
-            Each NOOORS piece is hand-prepared in our Parisian atelier before
+            Each Elora piece is hand-prepared in our atelier before
             dispatch. You'll receive an update the moment it leaves us.
           </p>
         </div>

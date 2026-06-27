@@ -5,7 +5,7 @@ import { clx } from "@modules/common/components/ui"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 
 /**
- * NOOORS Footer — couture dark with gold accents.
+ * Elora Footer — couture dark with gold accents.
  * Categories + collections are dynamic from the backend.
  */
 export default async function Footer() {
@@ -32,12 +32,17 @@ export default async function Footer() {
           <div>
             <LocalizedClientLink
               href="/"
-              className="footer__logo font-serif text-ivory text-3xl tracking-[0.3em] uppercase font-medium"
+              className="footer__logo flex flex-col items-start leading-none"
             >
-              NOOORS
+              <span className="font-script text-ivory text-[3.5rem] leading-[0.85]">
+                elora
+              </span>
+              <span className="text-[0.6rem] tracking-[0.5em] uppercase text-gold-light/80 mt-1">
+                by Harnoor
+              </span>
             </LocalizedClientLink>
-            <p className="font-serif italic text-ivory/50 mt-4 text-base">
-              Crafted in Paris. Worn Everywhere.
+            <p className="font-serif italic text-ivory/50 mt-5 text-base">
+              Crafted with love. Worn with intention.
             </p>
           </div>
 
@@ -126,7 +131,7 @@ export default async function Footer() {
         {/* Bottom — copyright + social */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 py-8 text-[0.75rem] tracking-[0.18em] uppercase">
           <p className="text-ivory/45">
-            © {new Date().getFullYear()} NOOORS. All rights reserved.
+            © {new Date().getFullYear()} Elora. All rights reserved.
           </p>
           <div className="flex gap-3">
             {[

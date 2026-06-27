@@ -2,7 +2,7 @@ import { HTMLAttributes, ReactNode, SVGAttributes } from "react"
 import clsx from "clsx"
 
 /**
- * NOOORS — shared presentational primitives.
+ * Elora — shared presentational primitives.
  * Pure server-renderable; no client behaviour.
  */
 

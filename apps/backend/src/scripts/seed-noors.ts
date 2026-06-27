@@ -16,8 +16,8 @@ import {
 } from "@medusajs/medusa/core-flows"
 
 /**
- * NOOORS — couture catalog seed.
- * Idempotent: wipes only NOOORS-managed products/categories/collection,
+ * Elora — couture catalog seed.
+ * Idempotent: wipes only Elora-managed products/categories/collection,
  * then creates the real catalog from ecom/products-data.js source.
  *
  * Run: npx medusa exec ./src/scripts/seed-noors.ts
@@ -149,7 +149,7 @@ export default async function seedNoors({ container }: ExecArgs) {
   const query = container.resolve(ContainerRegistrationKeys.QUERY)
   const link = container.resolve(ContainerRegistrationKeys.LINK)
 
-  logger.info("[NOOORS] Starting couture catalog seed")
+  logger.info("[Elora] Starting couture catalog seed")
 
   // -------- Reuse existing region + sales channel + stock location --------
   const { data: salesChannels } = await query.graph({
@@ -179,7 +179,7 @@ export default async function seedNoors({ container }: ExecArgs) {
       input: { id: stockLocation.id, add: [defaultSalesChannel.id] },
     })
   } catch (e: any) {
-    logger.info(`[NOOORS] SC↔stock link already exists: ${e.message}`)
+    logger.info(`[Elora] SC↔stock link already exists: ${e.message}`)
   }
 
   const { data: shippingProfiles } = await query.graph({
@@ -192,7 +192,7 @@ export default async function seedNoors({ container }: ExecArgs) {
   const shippingProfile = shippingProfiles[0]
 
   // -------- Idempotency: wipe old products + categories + collection --------
-  logger.info("[NOOORS] Clearing existing products / categories / collection")
+  logger.info("[Elora] Clearing existing products / categories / collection")
   const { data: existingProducts } = await query.graph({
     entity: "product",
     fields: ["id"],
@@ -224,7 +224,7 @@ export default async function seedNoors({ container }: ExecArgs) {
   }
 
   // -------- Categories --------
-  logger.info("[NOOORS] Creating categories")
+  logger.info("[Elora] Creating categories")
   const { result: createdCategories } = await createProductCategoriesWorkflow(
     container
   ).run({
@@ -239,7 +239,7 @@ export default async function seedNoors({ container }: ExecArgs) {
   createdCategories.forEach((c) => categoryByName.set(c.name, c))
 
   // -------- Collection (S/S 2025 — for home featured rail) --------
-  logger.info("[NOOORS] Creating collection")
+  logger.info("[Elora] Creating collection")
   const { result: createdCollections } = await createCollectionsWorkflow(
     container
   ).run({
@@ -255,7 +255,7 @@ export default async function seedNoors({ container }: ExecArgs) {
   const collection = createdCollections[0]
 
   // -------- Products --------
-  logger.info(`[NOOORS] Creating ${PRODUCTS.length} products`)
+  logger.info(`[Elora] Creating ${PRODUCTS.length} products`)
   const productsInput = PRODUCTS.map((p) => {
     const sizes = p.sizes || SIZES_DEFAULT
     const variants = sizes.flatMap((size) =>
@@ -304,10 +304,10 @@ export default async function seedNoors({ container }: ExecArgs) {
   ).run({
     input: { products: productsInput as any },
   })
-  logger.info(`[NOOORS] Created ${createdProducts.length} products`)
+  logger.info(`[Elora] Created ${createdProducts.length} products`)
 
   // -------- Inventory: stock every variant at the default location --------
-  logger.info("[NOOORS] Stocking inventory")
+  logger.info("[Elora] Stocking inventory")
   const { data: variantsWithInventory } = await query.graph({
     entity: "variant",
     fields: ["id", "inventory_items.inventory.id"],
@@ -333,5 +333,5 @@ export default async function seedNoors({ container }: ExecArgs) {
     })
   }
 
-  logger.info("[NOOORS] ✓ Couture catalog ready")
+  logger.info("[Elora] ✓ Couture catalog ready")
 }

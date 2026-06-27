@@ -13,7 +13,7 @@ type OptionSelectProps = {
 }
 
 /**
- * NOOORS OptionSelect.
+ * Elora OptionSelect.
  * - "Color" renders as round swatches (uses metadata.color_swatches if provided).
  * - Any other option (Size etc) renders as square box buttons.
  */

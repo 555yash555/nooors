@@ -8,7 +8,7 @@ export default function CheckoutLayout({
 }) {
   return (
     <div className="w-full bg-bone relative min-h-screen">
-      {/* Minimal NOOORS checkout header */}
+      {/* Minimal Elora checkout header */}
       <div className="h-20 border-b border-gold/15 bg-ivory/80 backdrop-blur-sm sticky top-0 z-30">
         <nav className="flex h-full items-center content-container justify-between">
           <LocalizedClientLink
@@ -22,10 +22,15 @@ export default function CheckoutLayout({
           </LocalizedClientLink>
           <LocalizedClientLink
             href="/"
-            className="font-serif font-light tracking-[0.35em] text-xl uppercase text-ink"
+            className="flex flex-col items-center leading-none"
             data-testid="store-link"
           >
-            NOOORS
+            <span className="font-script text-[2rem] leading-[0.85] text-ink">
+              elora
+            </span>
+            <span className="text-[0.5rem] tracking-[0.4em] uppercase text-smoke mt-0.5">
+              by Harnoor
+            </span>
           </LocalizedClientLink>
           {/* Spacer so logo stays centered */}
           <span className="w-[80px]" aria-hidden="true" />

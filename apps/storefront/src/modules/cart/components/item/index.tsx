@@ -20,7 +20,7 @@ type ItemProps = {
 }
 
 /**
- * NOOORS Cart line item.
+ * Elora Cart line item.
  * Mobile: stacked card (thumb | name & meta | qty + price).
  * Desktop (sm+): horizontal row matching the column headers.
  */

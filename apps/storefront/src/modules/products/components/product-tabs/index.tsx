@@ -8,7 +8,7 @@ type ProductTabsProps = {
 }
 
 /**
- * NOOORS PDP accordions — Composition & Fabric, Care, Delivery & Returns.
+ * Elora PDP accordions — Composition & Fabric, Care, Delivery & Returns.
  * Replaces the starter's "Product Information / Shipping & Returns" with
  * couture-house language and pulls material from product.metadata.
  */
@@ -22,9 +22,9 @@ const ProductTabs = ({ product }: ProductTabsProps) => {
       content: (
         <div className="py-6 font-serif italic font-light text-smoke leading-[1.7] text-base">
           {material ? (
-            <p>{material}. Hand-finished in our Parisian atelier.</p>
+            <p>{material}. Hand-finished in our atelier.</p>
           ) : (
-            <p>Crafted from the finest materials, hand-finished in Paris.</p>
+            <p>Crafted from the finest materials, hand-finished by Harnoor.</p>
           )}
           <dl className="grid grid-cols-2 gap-x-8 gap-y-4 mt-6 font-sans not-italic text-[0.7rem] tracking-[0.18em] uppercase">
             {product.origin_country && (

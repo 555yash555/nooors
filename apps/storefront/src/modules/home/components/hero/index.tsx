@@ -8,7 +8,7 @@ import {
 const BACKEND_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || ""
 
 /**
- * NOOORS Hero — full-bleed cinematic hero with Ken Burns, grain, deco, kinetic label.
+ * Elora Hero — full-bleed cinematic hero with Ken Burns, grain, deco, kinetic label.
  * Pure CSS animations; data-split + reveal classes are wired by NoorsMotion.
  */
 const Hero = () => {
@@ -18,7 +18,7 @@ const Hero = () => {
       <div className="hero__bg absolute inset-0 z-0">
         <Image
           src={`${BACKEND_URL}/static/hero_main.png`}
-          alt="NOOORS — Woman in ivory silk gown"
+          alt="Elora — Woman in ivory silk gown"
           fill
           priority
           sizes="100vw"

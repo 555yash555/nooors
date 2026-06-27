@@ -3,8 +3,8 @@ import { SectionHeader } from "@modules/common/components/noors"
 const QUOTES = [
   {
     quote:
-      "NOOORS redefined what it means to dress with intention. Every seam tells a story.",
-    cite: "— Vogue Paris, March 2025",
+      "Elora redefined what it means to dress with intention. Every seam tells a story.",
+    cite: "— Harper. Bazaar India, March 2025",
   },
   {
     quote:

@@ -12,7 +12,7 @@ type FilterRadioGroupProps = {
 }
 
 /**
- * NOOORS filter group — minimal, gold tick on selected item, all uppercase tracked.
+ * Elora filter group — minimal, gold tick on selected item, all uppercase tracked.
  */
 const FilterRadioGroup = ({
   title,

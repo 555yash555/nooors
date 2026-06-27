@@ -8,7 +8,7 @@ import {
 const BACKEND_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || ""
 
 /**
- * NOOORS Cinematic split — image left, copy right (or stacked on mobile).
+ * Elora Cinematic split — image left, copy right (or stacked on mobile).
  * The image-side uses .clip-reveal (animated by NoorsMotion IntersectionObserver).
  */
 export default function Cinematic() {
@@ -22,14 +22,14 @@ export default function Cinematic() {
         className="hidden lg:block absolute left-8 top-1/2 -translate-y-1/2 z-10 origin-left text-[0.65rem] tracking-[0.4em] uppercase text-gold-light/70 whitespace-nowrap"
         style={{ transform: "rotate(-90deg) translateY(-50%)" }}
       >
-        The Atelier · Est. Paris
+        The Atelier · By Harnoor
       </span>
 
       {/* IMAGE SIDE */}
       <div className="cinematic__image-side relative min-h-[55vh] lg:min-h-full overflow-hidden">
         <Image
           src={`${BACKEND_URL}/static/hero_secondary.png`}
-          alt="NOOORS editorial — two women on marble staircase"
+          alt="Elora editorial — two women on marble staircase"
           fill
           sizes="(max-width: 1024px) 100vw, 50vw"
           className="parallax-img object-cover"
@@ -43,7 +43,7 @@ export default function Cinematic() {
         />
         <div className="absolute bottom-8 left-8 text-[0.7rem] tracking-[0.35em] uppercase text-gold-light flex items-center gap-3">
           <span className="w-8 h-px bg-gold-light/60" />
-          Autumn Couture Atelier, Paris 2025
+          Autumn Couture Atelier, Studio 2025
         </div>
 
         <CornerBracket
@@ -80,7 +80,7 @@ export default function Cinematic() {
             className="font-serif italic font-light text-ivory/75 mt-8 leading-[1.7]"
             style={{ fontSize: "1.1rem" }}
           >
-            NOOORS was founded on the belief that true luxury lives in restraint
+            Elora was founded on the belief that true luxury lives in restraint
             — in the precise cut of a lapel, the weight of a silk hem against
             the floor, the way light falls on a considered silhouette.
           </p>
@@ -88,7 +88,7 @@ export default function Cinematic() {
             className="font-serif italic font-light text-ivory/75 mt-6 leading-[1.7]"
             style={{ fontSize: "1.1rem" }}
           >
-            Each piece is conceived in our Parisian atelier and finished by
+            Each piece is conceived in our atelier and finished by
             hand, built for women who collect clothing the way others collect
             art.
           </p>

@@ -41,7 +41,7 @@ const Review = ({ cart }: { cart: HttpTypes.StoreCart }) => {
             <div className="w-full">
               <Text className="txt-medium-plus text-ui-fg-base mb-1">
                 By placing your order, you confirm that you have read,
-                understand and accept NOOORS&apos;s Terms of Use, Terms of Sale,
+                understand and accept Elora&apos;s Terms of Use, Terms of Sale,
                 Returns Policy and Privacy Policy.
               </Text>
             </div>

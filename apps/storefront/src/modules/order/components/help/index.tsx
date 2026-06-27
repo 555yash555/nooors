@@ -10,7 +10,7 @@ const Help = () => {
         Need a hand?
       </h3>
       <p className="font-serif italic font-light text-smoke mt-2 mb-6 leading-relaxed">
-        Our client services team in Paris is available for sizing,
+        Our client services team is available for sizing,
         alterations, and bespoke requests.
       </p>
       <div className="flex items-center justify-center gap-6 text-[0.7rem] tracking-[0.25em] uppercase">
