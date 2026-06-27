@@ -17,12 +17,15 @@ export default async function CheckoutForm({
     return null
   }
 
-  const shippingMethods = await listCartShippingMethods(cart.id)
-  const paymentMethods = await listCartPaymentMethods(cart.region?.id ?? "")
-
-  if (!shippingMethods || !paymentMethods) {
-    return null
-  }
+  // Both calls can legitimately return [] for a brand-new cart (no address
+  // → no shipping rates available yet; payment methods only exist if the
+  // region has providers linked). Empty results are NOT a reason to hide
+  // the whole form — each step gates itself by ?step= and shows a CTA when
+  // it can't proceed. Bailing on empty here was the root cause of the
+  // blank checkout left column on first-time visitors.
+  const shippingMethods = (await listCartShippingMethods(cart.id)) ?? []
+  const paymentMethods =
+    (await listCartPaymentMethods(cart.region?.id ?? "")) ?? []
 
   return (
     <div className="w-full grid grid-cols-1 gap-y-8">
