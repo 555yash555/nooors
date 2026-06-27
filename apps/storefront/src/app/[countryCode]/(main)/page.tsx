@@ -46,8 +46,36 @@ export default async function Home(props: {
     return null
   }
 
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? ""
+  const orgSchema = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "Elora by Harnoor",
+    url: baseUrl,
+    logo: `${baseUrl}/favicon.svg`,
+    sameAs: [] as string[], // add IG / Pinterest URLs here when live
+  }
+  const websiteSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "Elora by Harnoor",
+    url: baseUrl,
+    potentialAction: {
+      "@type": "SearchAction",
+      target: `${baseUrl}/${countryCode}/store?q={search_term_string}`,
+      "query-input": "required name=search_term_string",
+    },
+  }
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        // eslint-disable-next-line react/no-danger
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify([orgSchema, websiteSchema]),
+        }}
+      />
       <Hero />
       <Marquee items={MARQUEE_ITEMS} />
       <ul className="block">

@@ -120,12 +120,44 @@ export default async function ProductPage(props: Props) {
     notFound()
   }
 
+  // JSON-LD structured data — lets Google render rich product cards in search.
+  const cheapestPrice = pricedProduct.variants
+    ?.map((v) => v.calculated_price?.calculated_amount)
+    .filter((n): n is number => typeof n === "number")
+    .sort((a, b) => a - b)[0]
+
+  const productSchema = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: pricedProduct.title,
+    description: pricedProduct.description ?? undefined,
+    image: pricedProduct.images?.map((i) => i.url).filter(Boolean) ?? [],
+    sku: pricedProduct.handle,
+    brand: { "@type": "Brand", name: "Elora by Harnoor" },
+    offers: cheapestPrice
+      ? {
+          "@type": "Offer",
+          price: cheapestPrice,
+          priceCurrency: region.currency_code?.toUpperCase() ?? "INR",
+          availability: "https://schema.org/InStock",
+          url: `${process.env.NEXT_PUBLIC_BASE_URL ?? ""}/${params.countryCode}/products/${pricedProduct.handle}`,
+        }
+      : undefined,
+  }
+
   return (
-    <ProductTemplate
-      product={pricedProduct}
-      region={region}
-      countryCode={params.countryCode}
-      images={images ?? []}
-    />
+    <>
+      <script
+        type="application/ld+json"
+        // eslint-disable-next-line react/no-danger
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }}
+      />
+      <ProductTemplate
+        product={pricedProduct}
+        region={region}
+        countryCode={params.countryCode}
+        images={images ?? []}
+      />
+    </>
   )
 }
