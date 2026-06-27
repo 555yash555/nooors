@@ -4,10 +4,11 @@ services:
     runtime: node
     plan: free
     region: oregon
-    # NOTE: do NOT set rootDir. We need npm install to run at the monorepo root
-    # so workspace deps get hoisted, then build from inside apps/backend.
-    buildCommand: npm install --legacy-peer-deps && npm run build --workspace=apps/backend
-    startCommand: cd apps/backend && npm run start
+    # Monorepo: install at root (hoists deps), then cd into the backend
+    # workspace so `medusa build` registers ts-node from the correct cwd.
+    # NPM_CONFIG_PRODUCTION=false ensures devDeps (ts-node) install during build
+    buildCommand: NPM_CONFIG_PRODUCTION=false npm install --include=dev --legacy-peer-deps && cd apps/backend && npx medusa build
+    startCommand: cd apps/backend && npx medusa start
     autoDeploy: true
     envVars:
       - key: DATABASE_URL
