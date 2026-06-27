@@ -1,0 +1,29 @@
+services:
+  - type: web
+    name: nooors-backend
+    runtime: node
+    plan: free
+    region: oregon
+    rootDir: apps/backend
+    buildCommand: npm install && npm run build
+    startCommand: npm run start
+    autoDeploy: true
+    envVars:
+      - key: DATABASE_URL
+        sync: false # paste your Neon connection string in dashboard
+      - key: JWT_SECRET
+        generateValue: true
+      - key: COOKIE_SECRET
+        generateValue: true
+      - key: STORE_CORS
+        value: https://nooors-storefront.vercel.app
+      - key: ADMIN_CORS
+        value: https://nooors-backend.onrender.com
+      - key: AUTH_CORS
+        value: https://nooors-storefront.vercel.app,https://nooors-backend.onrender.com
+      - key: MEDUSA_BACKEND_URL
+        value: https://nooors-backend.onrender.com
+      - key: NODE_ENV
+        value: production
+      - key: DISABLE_MEDUSA_ADMIN
+        value: "false"
