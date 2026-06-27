@@ -15,6 +15,7 @@ services:
     buildCommand: |
       NPM_CONFIG_PRODUCTION=false npm install --include=dev --legacy-peer-deps && \
       cd apps/backend && npx medusa build && \
+      cp -r static .medusa/server/static && \
       cd .medusa/server && npm install --omit=dev --no-package-lock --legacy-peer-deps && \
       npx medusa db:migrate
     # Start the production server from inside its self-contained build dir.
