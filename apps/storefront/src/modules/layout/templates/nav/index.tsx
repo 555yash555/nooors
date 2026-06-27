@@ -22,12 +22,11 @@ export default async function Nav() {
   return (
     <header
       id="noors-nav"
-      className="nav fixed top-0 inset-x-0 z-50 transition-all duration-500 ease-silk"
-      style={{
-        // initial: transparent over hero, ivory text
-        background: "rgba(20,18,14,0)",
-        backdropFilter: "blur(0px)",
-      }}
+      // Default to the "scrolled" style (ivory bg + ink text) so non-home
+      // pages render correctly even before JS boots. NoorsMotion removes
+      // `nav--scrolled` on the home route when scrollY === 0, putting it
+      // back into transparent-over-hero mode.
+      className="nav nav--scrolled fixed top-0 inset-x-0 z-50 transition-all duration-500 ease-silk"
     >
       <style>{`
         #noors-nav .nav__inner { color: var(--ivory); }

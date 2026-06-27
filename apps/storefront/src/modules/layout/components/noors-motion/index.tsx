@@ -262,16 +262,31 @@ export default function NoorsMotion() {
       )
     }
 
-    /* ---------- NAV SCROLL STATE ---------- */
+    /* ---------- NAV SCROLL STATE ----------
+     * The nav starts transparent so it sits over the home hero. Only the home
+     * "/" or "/<country>" route has that hero — every other route renders the
+     * nav over cream/ivory backgrounds where the ivory text would be invisible.
+     * So we force the .nav--scrolled style on every non-home page and only do
+     * scroll-based toggling on the home route.
+     */
     const nav = document.getElementById("noors-nav")
     if (nav) {
-      const onScroll = () => {
-        if (window.scrollY > 80) nav.classList.add("nav--scrolled")
-        else nav.classList.remove("nav--scrolled")
+      const path = window.location.pathname.replace(/\/$/, "")
+      // matches "" (root) and "/in" / "/dk" / etc — all home pages
+      const isHome = /^(\/[a-z]{2})?$/.test(path)
+
+      if (isHome) {
+        // On home: remove the default scrolled class when at top so the nav
+        // sits transparent over the hero, re-add it when user scrolls.
+        const onScroll = () => {
+          if (window.scrollY > 80) nav.classList.add("nav--scrolled")
+          else nav.classList.remove("nav--scrolled")
+        }
+        window.addEventListener("scroll", onScroll, { passive: true })
+        onScroll()
+        cleanups.push(() => window.removeEventListener("scroll", onScroll))
       }
-      window.addEventListener("scroll", onScroll, { passive: true })
-      onScroll()
-      cleanups.push(() => window.removeEventListener("scroll", onScroll))
+      // On non-home: leave the SSR-default `nav--scrolled` in place.
     }
 
     } // end run()
