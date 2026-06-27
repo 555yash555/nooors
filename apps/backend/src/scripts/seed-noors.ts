@@ -219,7 +219,7 @@ export default async function seedNoors({ container }: ExecArgs) {
   })
   if (existingCollections.length) {
     await deleteCollectionsWorkflow(container).run({
-      input: existingCollections.map((c: any) => c.id),
+      input: { ids: existingCollections.map((c: any) => c.id) },
     })
   }
 
