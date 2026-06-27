@@ -27,18 +27,17 @@ const nextConfig = {
   images: {
     unoptimized: true,
     remotePatterns: [
-      {
-        protocol: "http",
-        hostname: "localhost",
-      },
-      {
-        protocol: "https",
-        hostname: "*.s3.*.amazonaws.com",
-      },
-      {
-        protocol: "https",
-        hostname: "*.s3.amazonaws.com",
-      },
+      { protocol: "http", hostname: "localhost" },
+      // Render-hosted Medusa backend (serves /static/* via our middleware)
+      { protocol: "https", hostname: "nooors-backend.onrender.com" },
+      // Any Render subdomain (covers preview / renamed services later)
+      { protocol: "https", hostname: "*.onrender.com" },
+      // Cloudflare R2 public buckets (for when we migrate images to R2)
+      { protocol: "https", hostname: "*.r2.dev" },
+      { protocol: "https", hostname: "*.r2.cloudflarestorage.com" },
+      // S3 / Medusa Cloud (kept from starter)
+      { protocol: "https", hostname: "*.s3.*.amazonaws.com" },
+      { protocol: "https", hostname: "*.s3.amazonaws.com" },
       ...(S3_HOSTNAME && S3_PATHNAME
         ? [
             {
