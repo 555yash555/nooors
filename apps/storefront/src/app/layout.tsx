@@ -20,6 +20,48 @@ const sans = Montserrat({
 
 export const metadata: Metadata = {
   metadataBase: new URL(getBaseURL()),
+  title: {
+    default: "NOOORS — Luxury Women's Fashion",
+    template: "%s · NOOORS",
+  },
+  description:
+    "NOOORS is a luxury women's fashion house. Couture gowns, tailored separates, and editorial pieces — crafted in Paris, worn everywhere.",
+  applicationName: "NOOORS",
+  authors: [{ name: "NOOORS Atelier" }],
+  keywords: [
+    "luxury fashion",
+    "couture",
+    "designer gowns",
+    "Paris atelier",
+    "women's fashion",
+    "NOOORS",
+  ],
+  openGraph: {
+    type: "website",
+    locale: "en_IN",
+    siteName: "NOOORS",
+    title: "NOOORS — Luxury Women's Fashion",
+    description:
+      "Couture gowns, tailored separates, and editorial pieces — crafted in Paris, worn everywhere.",
+    images: [
+      {
+        url: "/og-image.svg",
+        width: 1200,
+        height: 630,
+        alt: "NOOORS — Dressed in Silence",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "NOOORS — Luxury Women's Fashion",
+    description:
+      "Couture gowns, tailored separates, and editorial pieces — crafted in Paris, worn everywhere.",
+    images: ["/og-image.svg"],
+  },
+  icons: {
+    icon: "/favicon.svg",
+  },
 }
 
 export default function RootLayout(props: { children: React.ReactNode }) {
