@@ -4,13 +4,14 @@ services:
     runtime: node
     plan: free
     region: oregon
-    rootDir: apps/backend
-    buildCommand: npm install && npm run build
-    startCommand: npm run start
+    # NOTE: do NOT set rootDir. We need npm install to run at the monorepo root
+    # so workspace deps get hoisted, then build from inside apps/backend.
+    buildCommand: npm install --legacy-peer-deps && npm run build --workspace=apps/backend
+    startCommand: cd apps/backend && npm run start
     autoDeploy: true
     envVars:
       - key: DATABASE_URL
-        sync: false # paste your Neon connection string in dashboard
+        sync: false # paste your Neon connection string in the Render dashboard
       - key: JWT_SECRET
         generateValue: true
       - key: COOKIE_SECRET
