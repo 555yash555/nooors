@@ -7,7 +7,7 @@ export default function Newsletter() {
   return (
     <section
       id="contact"
-      className="newsletter relative bg-ink text-ivory overflow-hidden py-24 lg:py-32 px-6"
+      className="newsletter relative bg-ink text-ivory overflow-hidden py-16 lg:py-32 px-6"
     >
       {/* Decorative blobs */}
       <div

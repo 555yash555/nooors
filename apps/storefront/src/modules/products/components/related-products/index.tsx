@@ -41,7 +41,7 @@ export default async function RelatedProducts({
   return (
     <>
       <SectionHeader label="Complete the Look" title="You May Also Love" />
-      <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16 mt-12">
+      <ul className="grid grid-cols-2 lg:grid-cols-3 gap-x-3 gap-y-10 sm:gap-x-6 lg:gap-x-8 lg:gap-y-16 mt-8 lg:mt-12">
         {products.map((p) => (
           <li key={p.id}>
             <Product region={region} product={p} />

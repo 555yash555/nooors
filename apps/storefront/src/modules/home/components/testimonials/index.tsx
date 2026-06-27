@@ -20,7 +20,7 @@ const QUOTES = [
 
 export default function Testimonials() {
   return (
-    <section className="testimonials py-24 lg:py-32 relative">
+    <section className="testimonials py-16 lg:py-32 relative">
       <SectionHeader label="Press & Clients" title="Worn & Praised" />
       <div
         className="grid gap-12 mt-12 mx-auto"

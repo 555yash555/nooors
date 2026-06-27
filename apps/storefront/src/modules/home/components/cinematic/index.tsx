@@ -60,7 +60,7 @@ export default function Cinematic() {
       </div>
 
       {/* TEXT SIDE */}
-      <div className="cinematic__text-side flex items-center px-8 py-20 lg:px-16">
+      <div className="cinematic__text-side flex items-center px-6 py-14 lg:px-16 lg:py-20">
         <div className="cinematic__text-inner max-w-[480px]">
           <span className="section-label section-label--light">The House</span>
           <h2

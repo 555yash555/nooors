@@ -39,7 +39,7 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
       {/* Breadcrumb */}
       <nav
         aria-label="Breadcrumb"
-        className="content-container pt-4 pb-2 text-[0.7rem] tracking-[0.25em] uppercase text-smoke flex items-center gap-3"
+        className="content-container pt-4 pb-2 text-[0.65rem] lg:text-[0.7rem] tracking-[0.25em] uppercase text-smoke flex items-center gap-2 lg:gap-3 whitespace-nowrap overflow-x-auto no-scrollbar"
       >
         <LocalizedClientLink href="/" className="hover:text-gold">
           Home
@@ -48,13 +48,15 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
         <LocalizedClientLink href="/store" className="hover:text-gold">
           Collection
         </LocalizedClientLink>
-        <span className="text-gold/40">/</span>
-        <span className="text-ink">{product.title}</span>
+        <span className="text-gold/40 hidden lg:inline">/</span>
+        <span className="text-ink hidden lg:inline truncate">
+          {product.title}
+        </span>
       </nav>
 
-      {/* Main PDP grid */}
+      {/* Main PDP grid — extra bottom padding on mobile so sticky CTA doesn't cover content */}
       <main
-        className="content-container py-12 lg:py-20"
+        className="content-container py-8 lg:py-20 pb-32 lg:pb-20"
         data-testid="product-container"
       >
         <div className="grid gap-10 lg:gap-16 lg:[grid-template-columns:minmax(0,1.1fr)_minmax(0,1fr)]">

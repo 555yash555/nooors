@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect } from "react"
+import { usePathname } from "next/navigation"
 
 /**
  * Elora — Global motion controller (client-only).
@@ -16,6 +17,44 @@ import { useEffect } from "react"
  * Honors prefers-reduced-motion and hover:hover for desktop-only fx.
  */
 export default function NoorsMotion() {
+  const pathname = usePathname()
+
+  /* ---------- NAV SCROLL STATE (overlay-aware) ----------
+   * The nav blends over any section marked with `data-hero-overlay` (dark
+   * image hero) and switches to its solid ivory `.nav--scrolled` style once
+   * the user has scrolled past the bottom of that section. No overlay on
+   * the page → nav stays solid. Re-evaluated on every navigation so the
+   * one-time NoorsMotion mount adapts to each route.
+   */
+  useEffect(() => {
+    const nav = document.getElementById("noors-nav")
+    if (!nav) return
+    const NAV_HEIGHT = 80 // matches header h-20
+    const overlay = document.querySelector<HTMLElement>(
+      "[data-hero-overlay]"
+    )
+
+    const apply = () => {
+      if (!overlay) {
+        nav.classList.add("nav--scrolled")
+        return
+      }
+      const r = overlay.getBoundingClientRect()
+      if (r.bottom > NAV_HEIGHT) {
+        nav.classList.remove("nav--scrolled")
+      } else {
+        nav.classList.add("nav--scrolled")
+      }
+    }
+
+    apply()
+
+    if (!overlay) return
+    const onScroll = () => apply()
+    window.addEventListener("scroll", onScroll, { passive: true })
+    return () => window.removeEventListener("scroll", onScroll)
+  }, [pathname])
+
   useEffect(() => {
     if (typeof window === "undefined") return
 
@@ -262,32 +301,96 @@ export default function NoorsMotion() {
       )
     }
 
-    /* ---------- NAV SCROLL STATE ----------
-     * The nav starts transparent so it sits over the home hero. Only the home
-     * "/" or "/<country>" route has that hero — every other route renders the
-     * nav over cream/ivory backgrounds where the ivory text would be invisible.
-     * So we force the .nav--scrolled style on every non-home page and only do
-     * scroll-based toggling on the home route.
+    /* ---------- SCROLL FLUIDITY ----------
+     * Single rAF-throttled scroll loop drives:
+     *   • Hero — background drifts down + scales slightly, content fades/lifts.
+     *     Gives a cinematic "scene receding" feel as the page enters.
+     *   • Any `.parallax-img` — gently translates Y as it passes through the
+     *     viewport, magnitude controlled by `data-parallax-speed` (default 18).
+     * Honors prefers-reduced-motion (skips entirely). All transforms reset on
+     * cleanup so the layout returns to its CSS-defined state.
      */
-    const nav = document.getElementById("noors-nav")
-    if (nav) {
-      const path = window.location.pathname.replace(/\/$/, "")
-      // matches "" (root) and "/in" / "/dk" / etc — all home pages
-      const isHome = /^(\/[a-z]{2})?$/.test(path)
+    if (!reduce) {
+      const hero = document.querySelector<HTMLElement>(".hero")
+      const heroBg = hero?.querySelector<HTMLElement>(".hero__bg") ?? null
+      const heroContent =
+        hero?.querySelector<HTMLElement>(".hero__content") ?? null
+      const parallaxImgs = Array.from(
+        document.querySelectorAll<HTMLElement>(".parallax-img, [data-parallax]")
+      )
 
-      if (isHome) {
-        // On home: remove the default scrolled class when at top so the nav
-        // sits transparent over the hero, re-add it when user scrolls.
-        const onScroll = () => {
-          if (window.scrollY > 80) nav.classList.add("nav--scrolled")
-          else nav.classList.remove("nav--scrolled")
+      // Make hero__bg + content opt out of CSS transitions for these props so
+      // every rAF frame paints exactly the scroll-mapped transform.
+      if (heroBg) heroBg.style.willChange = "transform"
+      if (heroContent) heroContent.style.willChange = "transform, opacity"
+      parallaxImgs.forEach((img) => (img.style.willChange = "transform"))
+
+      let ticking = false
+      let lastY = window.scrollY
+
+      const update = () => {
+        ticking = false
+        const y = lastY
+
+        if (hero && heroBg) {
+          const h = hero.offsetHeight || window.innerHeight
+          const p = Math.min(1, Math.max(0, y / h))
+          // bg drifts ~35% the scroll distance + tiny scale (extends Ken Burns)
+          heroBg.style.transform = `translate3d(0, ${y * 0.35}px, 0) scale(${1 + p * 0.04})`
+          if (heroContent) {
+            heroContent.style.opacity = String(Math.max(0, 1 - p * 1.4))
+            heroContent.style.transform = `translate3d(0, ${y * 0.18}px, 0)`
+          }
         }
-        window.addEventListener("scroll", onScroll, { passive: true })
-        onScroll()
-        cleanups.push(() => window.removeEventListener("scroll", onScroll))
+
+        if (parallaxImgs.length) {
+          const vh = window.innerHeight
+          parallaxImgs.forEach((img) => {
+            const wrap = img.parentElement || img
+            const r = wrap.getBoundingClientRect()
+            // Skip far off-screen elements (perf)
+            if (r.bottom < -200 || r.top > vh + 200) return
+            // Normalized position: -1 (well above viewport) → 1 (well below).
+            const center =
+              (r.top + r.height / 2 - vh / 2) / (vh / 2 + r.height / 2)
+            const c = Math.max(-1, Math.min(1, center))
+            const speed = parseFloat(img.dataset.parallaxSpeed || "18")
+            img.style.transform = `translate3d(0, ${-c * speed}px, 0)`
+          })
+        }
       }
-      // On non-home: leave the SSR-default `nav--scrolled` in place.
+
+      const onScroll = () => {
+        lastY = window.scrollY
+        if (!ticking) {
+          requestAnimationFrame(update)
+          ticking = true
+        }
+      }
+
+      window.addEventListener("scroll", onScroll, { passive: true })
+      // Initial paint so first frame is correct (avoids jump on first scroll).
+      update()
+
+      cleanups.push(() => {
+        window.removeEventListener("scroll", onScroll)
+        if (heroBg) {
+          heroBg.style.transform = ""
+          heroBg.style.willChange = ""
+        }
+        if (heroContent) {
+          heroContent.style.transform = ""
+          heroContent.style.opacity = ""
+          heroContent.style.willChange = ""
+        }
+        parallaxImgs.forEach((img) => {
+          img.style.transform = ""
+          img.style.willChange = ""
+        })
+      })
     }
+
+    // Nav scroll state lives in its own pathname-aware useEffect above.
 
     } // end run()
   }, [])

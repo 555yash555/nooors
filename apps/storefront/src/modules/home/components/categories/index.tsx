@@ -21,22 +21,21 @@ export default async function Categories() {
   if (featured.length === 0) return null
 
   return (
-    <section className="categories py-24 lg:py-32" id="categories">
+    <section className="categories py-16 lg:py-32" id="categories">
       <SectionHeader label="Shop by Category" title="Your Wardrobe" />
       <div
-        className="grid gap-6 mt-12 mx-auto"
+        className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5 lg:gap-6 mt-10 lg:mt-12 mx-auto"
         style={{
           maxWidth: "var(--max-w)",
           paddingLeft: "var(--pad-x)",
           paddingRight: "var(--pad-x)",
-          gridTemplateColumns: `repeat(auto-fit, minmax(min(280px, 100%), 1fr))`,
         }}
       >
         {featured.map((c: any) => (
           <LocalizedClientLink
             key={c.id}
             href={`/categories/${c.handle}`}
-            className="category-tile group block relative overflow-hidden aspect-[3/4]"
+            className="category-tile group block relative overflow-hidden aspect-[3/4] rounded-[3px]"
           >
             <div
               className="category-tile__bg absolute inset-0 bg-cover bg-center transition-transform [transition-duration:1300ms] ease-silk group-hover:scale-110"

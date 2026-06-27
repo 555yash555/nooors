@@ -32,7 +32,7 @@ const Thumbnail: React.FC<ThumbnailProps> = ({
     <div
       suppressHydrationWarning
       className={clx(
-        "shop-card__img-wrap relative w-full overflow-hidden bg-cream",
+        "shop-card__img-wrap relative w-full overflow-hidden bg-cream rounded-[3px]",
         isLarge ? "aspect-[3/4.5]" : "aspect-[3/4]",
         size === "square" && "aspect-square",
         size === "small" && "w-[180px]",

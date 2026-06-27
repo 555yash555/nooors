@@ -1,6 +1,7 @@
 import { Suspense } from "react"
 
 import { OptionValueIds } from "@lib/util/product-option-filters"
+import { listAvailableProductOptions } from "@lib/data/products"
 import SkeletonProductGrid from "@modules/skeletons/templates/skeleton-product-grid"
 import RefinementList from "@modules/store/components/refinement-list"
 import { SortOptions } from "@modules/store/components/refinement-list/sort-products"
@@ -13,7 +14,7 @@ const BACKEND_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || ""
 /**
  * Elora store / listing page — page-hero band, filter bar, then shop grid.
  */
-const StoreTemplate = ({
+const StoreTemplate = async ({
   sortBy,
   page,
   countryCode,
@@ -26,11 +27,13 @@ const StoreTemplate = ({
 }) => {
   const pageNumber = page ? parseInt(page) : 1
   const sort = sortBy || "created_at"
+  const availableOptions = await listAvailableProductOptions({ countryCode })
 
   return (
     <>
       {/* PAGE HERO */}
       <section
+        data-hero-overlay
         className="relative w-full overflow-hidden flex items-center justify-center text-ivory"
         style={{ height: "60vh", minHeight: "420px" }}
       >
@@ -76,7 +79,7 @@ const StoreTemplate = ({
         data-testid="category-container"
       >
         <div className="flex flex-col lg:flex-row gap-10">
-          <RefinementList sortBy={sort} />
+          <RefinementList sortBy={sort} availableOptions={availableOptions} />
           <div className="w-full">
             <Suspense fallback={<SkeletonProductGrid />}>
               <PaginatedProducts

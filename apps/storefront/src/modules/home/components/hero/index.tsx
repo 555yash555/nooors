@@ -10,7 +10,10 @@ const BACKEND_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || ""
  */
 const Hero = () => {
   return (
-    <section className="hero relative h-screen min-h-[700px] w-full overflow-hidden flex items-center justify-center text-ivory">
+    <section
+      data-hero-overlay
+      className="hero relative h-[100svh] min-h-[600px] lg:min-h-[700px] w-full overflow-hidden flex items-center justify-center text-ivory"
+    >
       {/* Background image w/ Ken Burns */}
       <div className="hero__bg absolute inset-0 z-0">
         <Image
@@ -104,7 +107,10 @@ const Hero = () => {
         className="absolute bottom-12 left-1/2 -translate-x-1/2 z-[3] flex flex-col items-center gap-3 opacity-0 animate-fade-up"
         style={{ animationDelay: "1.8s" }}
       >
-        <span className="text-[0.6rem] tracking-[0.4em] uppercase text-gold">
+        <span
+          className="text-[0.6rem] uppercase text-gold"
+          style={{ letterSpacing: "0.4em", paddingLeft: "0.4em" }}
+        >
           Scroll
         </span>
         <div className="relative w-px h-10 bg-gradient-to-b from-transparent via-gold to-transparent overflow-hidden">

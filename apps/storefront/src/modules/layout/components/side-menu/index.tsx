@@ -1,23 +1,13 @@
 "use client"
 
-import { Popover, PopoverPanel, Transition } from "@headlessui/react"
+import { Dialog, Transition } from "@headlessui/react"
 import useToggleState from "@lib/hooks/use-toggle-state"
-import { ArrowRightMini, XMark } from "@medusajs/icons"
 import { HttpTypes } from "@medusajs/types"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
-import { Text, clx } from "@modules/common/components/ui"
-import { Fragment } from "react"
+import { Fragment, useEffect } from "react"
 import CountrySelect from "../country-select"
 import LanguageSelect from "../language-select"
 import { Locale } from "@lib/data/locales"
-
-
-const SideMenuItems = {
-  Home: "/",
-  Store: "/store",
-  Account: "/account",
-  Cart: "/cart",
-}
 
 type SideMenuProps = {
   regions: HttpTypes.StoreRegion[] | null
@@ -25,120 +15,192 @@ type SideMenuProps = {
   currentLocale: string | null
 }
 
+const LINKS: { label: string; href: string }[] = [
+  { label: "Home", href: "/" },
+  { label: "Collection", href: "/store" },
+  { label: "Atelier", href: "/#story" },
+  { label: "Account", href: "/account" },
+  { label: "Bag", href: "/cart" },
+]
+
+/**
+ * Elora SideMenu — mobile-first slide-in drawer.
+ *
+ * Trigger: hamburger icon (44px touch target).
+ * Panel: ivory full-height, slides from left, holds the wordmark + tracked-caps
+ * navigation + locale/region pickers at bottom. Body scroll is locked while
+ * open. Designed for thumb reach on mobile but works at any width.
+ */
 const SideMenu = ({ regions, locales, currentLocale }: SideMenuProps) => {
+  const { state: open, open: setOpen, close } = useToggleState()
   const countryToggleState = useToggleState()
   const languageToggleState = useToggleState()
 
+  // Lock body scroll while the drawer is open.
+  useEffect(() => {
+    if (!open) return
+    const prev = document.body.style.overflow
+    document.body.style.overflow = "hidden"
+    return () => {
+      document.body.style.overflow = prev
+    }
+  }, [open])
+
   return (
-    <div className="h-full">
-      <div className="flex items-center h-full">
-        <Popover className="h-full flex">
-          {({ open, close }) => (
-            <>
-              <div className="relative flex h-full">
-                <Popover.Button
-                  data-testid="nav-menu-button"
-                  className="relative h-full flex items-center transition-all ease-out duration-200 focus:outline-none hover:text-ui-fg-base"
-                >
-                  Menu
-                </Popover.Button>
-              </div>
+    <>
+      <button
+        type="button"
+        aria-label="Open menu"
+        onClick={setOpen}
+        data-testid="nav-menu-button"
+        className="flex items-center justify-center w-11 h-11 -ml-2 group"
+      >
+        <span className="flex flex-col gap-[5px] items-start">
+          <span className="block w-6 h-px bg-current transition-transform duration-500 ease-silk" />
+          <span className="block w-4 h-px bg-current transition-all duration-500 ease-silk group-hover:w-6" />
+          <span className="block w-6 h-px bg-current transition-transform duration-500 ease-silk" />
+        </span>
+      </button>
 
-              {open && (
-                <div
-                  className="fixed inset-0 z-[50] bg-black/0 pointer-events-auto"
-                  onClick={close}
-                  data-testid="side-menu-backdrop"
-                />
-              )}
+      <Transition show={open} as={Fragment}>
+        <Dialog as="div" className="relative z-[60]" onClose={close}>
+          {/* Backdrop */}
+          <Transition.Child
+            as={Fragment}
+            enter="ease-silk duration-400"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="ease-silk duration-300"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <div className="fixed inset-0 bg-ink/55 backdrop-blur-sm" />
+          </Transition.Child>
 
-              <Transition
-                show={open}
-                as={Fragment}
-                enter="transition ease-out duration-150"
-                enterFrom="opacity-0"
-                enterTo="opacity-100 backdrop-blur-2xl"
-                leave="transition ease-in duration-150"
-                leaveFrom="opacity-100 backdrop-blur-2xl"
-                leaveTo="opacity-0"
+          {/* Panel */}
+          <div className="fixed inset-y-0 left-0 flex">
+            <Transition.Child
+              as={Fragment}
+              enter="ease-silk duration-500"
+              enterFrom="-translate-x-full"
+              enterTo="translate-x-0"
+              leave="ease-silk duration-400"
+              leaveFrom="translate-x-0"
+              leaveTo="-translate-x-full"
+            >
+              <Dialog.Panel
+                className="relative w-[88vw] max-w-[420px] h-full bg-ivory text-ink flex flex-col"
+                data-testid="nav-menu-popup"
               >
-                <PopoverPanel className="flex flex-col absolute w-full pr-4 sm:pr-0 sm:w-1/3 2xl:w-1/4 sm:min-w-min h-[calc(100vh-1rem)] z-[51] inset-x-0 text-sm text-ui-fg-on-color m-2 backdrop-blur-2xl">
-                  <div
-                    data-testid="nav-menu-popup"
-                    className="flex flex-col h-full bg-[rgba(3,7,18,0.5)] rounded-rounded justify-between p-6"
+                {/* Header — wordmark + close */}
+                <div
+                  className="flex items-center justify-between border-b border-gold/15"
+                  style={{
+                    paddingTop: "calc(1.25rem + env(safe-area-inset-top))",
+                    paddingLeft: "1.5rem",
+                    paddingRight: "1.25rem",
+                    paddingBottom: "1.25rem",
+                  }}
+                >
+                  <LocalizedClientLink
+                    href="/"
+                    onClick={close}
+                    className="flex flex-col leading-none"
                   >
-                    <div className="flex justify-end" id="xmark">
-                      <button data-testid="close-menu-button" onClick={close}>
-                        <XMark />
-                      </button>
-                    </div>
-                    <ul className="flex flex-col gap-6 items-start justify-start">
-                      {Object.entries(SideMenuItems).map(([name, href]) => {
-                        return (
-                          <li key={name}>
-                            <LocalizedClientLink
-                              href={href}
-                              className="text-3xl leading-10 hover:text-ui-fg-disabled"
-                              onClick={close}
-                              data-testid={`${name.toLowerCase()}-link`}
-                            >
-                              {name}
-                            </LocalizedClientLink>
-                          </li>
-                        )
-                      })}
-                    </ul>
-                    <div className="flex flex-col gap-y-6">
-                      {!!locales?.length && (
-                        <div
-                          className="flex justify-between"
-                          onMouseEnter={languageToggleState.open}
-                          onMouseLeave={languageToggleState.close}
-                        >
-                          <LanguageSelect
-                            toggleState={languageToggleState}
-                            locales={locales}
-                            currentLocale={currentLocale}
-                          />
-                          <ArrowRightMini
-                            className={clx(
-                              "transition-transform duration-150",
-                              languageToggleState.state ? "-rotate-90" : ""
-                            )}
-                          />
-                        </div>
-                      )}
-                      <div
-                        className="flex justify-between"
-                        onMouseEnter={countryToggleState.open}
-                        onMouseLeave={countryToggleState.close}
+                    <span className="font-script text-[2rem] leading-[0.85] text-ink">
+                      elora
+                    </span>
+                    <span className="text-[0.5rem] tracking-[0.45em] uppercase mt-1 text-smoke">
+                      by Harnoor
+                    </span>
+                  </LocalizedClientLink>
+                  <button
+                    type="button"
+                    onClick={close}
+                    aria-label="Close menu"
+                    data-testid="close-menu-button"
+                    className="w-11 h-11 -mr-2 flex items-center justify-center text-ink"
+                  >
+                    <span className="relative block w-5 h-5">
+                      <span className="absolute inset-x-0 top-1/2 h-px bg-current rotate-45" />
+                      <span className="absolute inset-x-0 top-1/2 h-px bg-current -rotate-45" />
+                    </span>
+                  </button>
+                </div>
+
+                {/* Section label */}
+                <span className="text-[0.55rem] tracking-[0.5em] uppercase text-gold mt-8 px-6">
+                  Maison
+                </span>
+
+                {/* Links */}
+                <nav className="flex-1 overflow-y-auto px-6 pt-4 pb-8">
+                  <ul className="flex flex-col">
+                    {LINKS.map((link, i) => (
+                      <li
+                        key={link.label}
+                        className="border-b border-ink/8 last:border-b-0"
                       >
-                        {regions && (
-                          <CountrySelect
-                            toggleState={countryToggleState}
-                            regions={regions}
-                          />
-                        )}
-                        <ArrowRightMini
-                          className={clx(
-                            "transition-transform duration-150",
-                            countryToggleState.state ? "-rotate-90" : ""
-                          )}
-                        />
-                      </div>
-                      <Text className="flex justify-between txt-compact-small">
-                        © {new Date().getFullYear()} Elora. All rights
-                        reserved.
-                      </Text>
+                        <LocalizedClientLink
+                          href={link.href}
+                          onClick={close}
+                          data-testid={`${link.label.toLowerCase()}-link`}
+                          className="flex items-baseline justify-between py-5 group"
+                        >
+                          <span className="font-serif font-light text-[1.75rem] leading-tight text-ink group-active:text-gold transition-colors">
+                            {link.label}
+                          </span>
+                          <span className="text-[0.55rem] tracking-[0.3em] uppercase text-smoke tabular-nums">
+                            {String(i + 1).padStart(2, "0")}
+                          </span>
+                        </LocalizedClientLink>
+                      </li>
+                    ))}
+                  </ul>
+                </nav>
+
+                {/* Footer — locale + region + copyright */}
+                <div
+                  className="border-t border-gold/15 px-6 pt-6 flex flex-col gap-5 text-[0.7rem] tracking-[0.18em] uppercase text-smoke"
+                  style={{
+                    paddingBottom: "calc(1.5rem + env(safe-area-inset-bottom))",
+                  }}
+                >
+                  {!!locales?.length && (
+                    <div
+                      onMouseEnter={languageToggleState.open}
+                      onMouseLeave={languageToggleState.close}
+                      onClick={languageToggleState.open}
+                    >
+                      <LanguageSelect
+                        toggleState={languageToggleState}
+                        locales={locales}
+                        currentLocale={currentLocale}
+                      />
                     </div>
-                  </div>
-                </PopoverPanel>
-              </Transition>
-            </>
-          )}
-        </Popover>
-      </div>
-    </div>
+                  )}
+                  {regions && (
+                    <div
+                      onMouseEnter={countryToggleState.open}
+                      onMouseLeave={countryToggleState.close}
+                      onClick={countryToggleState.open}
+                    >
+                      <CountrySelect
+                        toggleState={countryToggleState}
+                        regions={regions}
+                      />
+                    </div>
+                  )}
+                  <p className="text-[0.6rem] tracking-[0.25em] text-smoke/70 mt-2">
+                    © {new Date().getFullYear()} Elora · All rights reserved
+                  </p>
+                </div>
+              </Dialog.Panel>
+            </Transition.Child>
+          </div>
+        </Dialog>
+      </Transition>
+    </>
   )
 }
 
