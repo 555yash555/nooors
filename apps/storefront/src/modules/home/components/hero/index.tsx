@@ -1,14 +1,19 @@
 import Image from "next/image"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import { FloatAccentCircles } from "@modules/common/components/noors"
-
-const BACKEND_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || ""
+import { getSiteContent } from "@lib/data/site-content"
 
 /**
  * Elora Hero — full-bleed cinematic hero with Ken Burns, grain, deco, kinetic label.
  * Pure CSS animations; data-split + reveal classes are wired by NoorsMotion.
+ * Copy + image come from the `siteContent` module (key: "home_hero"),
+ * editable in the admin panel's Site Content page.
  */
-const Hero = () => {
+const Hero = async () => {
+  const content = (await getSiteContent()).home_hero
+
+  if (!content) return null
+
   return (
     <section
       data-hero-overlay
@@ -17,8 +22,8 @@ const Hero = () => {
       {/* Background image w/ Ken Burns */}
       <div className="hero__bg absolute inset-0 z-0">
         <Image
-          src={`${BACKEND_URL}/static/hero_main.png`}
-          alt="Elora — Woman in ivory silk gown"
+          src={content.image}
+          alt={content.alt}
           fill
           priority
           sizes="100vw"
@@ -61,7 +66,7 @@ const Hero = () => {
           className="text-[0.72rem] tracking-[0.4em] uppercase text-gold-light mb-6 opacity-0 animate-fade-up"
           style={{ animationDelay: "0.3s" }}
         >
-          S/S 2025 Collection
+          {content.eyebrow}
         </p>
         <h1
           className="font-serif font-light leading-[0.95] tracking-[-0.03em] text-ivory"
@@ -71,13 +76,13 @@ const Hero = () => {
             className="block opacity-0 animate-fade-up"
             style={{ animationDelay: "0.5s" }}
           >
-            Dressed in
+            {content.headline_line1}
           </span>
           <span
             className="block italic text-champagne opacity-0 animate-fade-up"
             style={{ animationDelay: "0.75s", paddingLeft: "2rem" }}
           >
-            Silence.
+            {content.headline_line2}
           </span>
         </h1>
         <p
@@ -87,7 +92,7 @@ const Hero = () => {
             fontSize: "clamp(1rem, 1.5vw, 1.3rem)",
           }}
         >
-          Couture for women who move through the world with intention.
+          {content.subheading}
         </p>
         <div
           className="flex flex-wrap items-center justify-center gap-4 mt-12 opacity-0 animate-fade-up"

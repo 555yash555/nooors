@@ -1,24 +1,15 @@
 import { SectionHeader } from "@modules/common/components/noors"
+import { listTestimonials } from "@lib/data/testimonials"
 
-const QUOTES = [
-  {
-    quote:
-      "Elora redefined what it means to dress with intention. Every seam tells a story.",
-    cite: "— Harper. Bazaar India, March 2025",
-  },
-  {
-    quote:
-      "The silk gown I wore to the Cannes premiere drew more attention than anything I've worn in a decade.",
-    cite: "— Sofia M., Actress",
-  },
-  {
-    quote:
-      "Architectural, feminine, and impossibly precise. A house to watch.",
-    cite: "— Harper's Bazaar, 2025",
-  },
-]
+/**
+ * Elora press/client testimonials — backed by the `testimonial` module,
+ * editable (add/edit/reorder/hide) from the admin panel's Site Content page.
+ */
+export default async function Testimonials() {
+  const testimonials = await listTestimonials()
 
-export default function Testimonials() {
+  if (testimonials.length === 0) return null
+
   return (
     <section className="testimonials py-16 lg:py-32 relative">
       <SectionHeader label="Press & Clients" title="Worn & Praised" />
@@ -31,21 +22,21 @@ export default function Testimonials() {
           gridTemplateColumns: `repeat(auto-fit, minmax(min(280px, 100%), 1fr))`,
         }}
       >
-        {QUOTES.map((q, i) => (
+        {testimonials.map((t) => (
           <blockquote
-            key={i}
+            key={t.id}
             className="testimonial text-center px-6 py-8 lg:border-l lg:border-gold/30 first:lg:border-l-0"
           >
             <p
               className="font-serif italic font-light text-ink leading-[1.6]"
               style={{ fontSize: "1.15rem" }}
             >
-              "{q.quote}"
+              "{t.quote}"
             </p>
             <cite
               className="block mt-6 text-[0.7rem] tracking-[0.3em] uppercase text-gold not-italic"
             >
-              {q.cite}
+              {t.citation}
             </cite>
           </blockquote>
         ))}

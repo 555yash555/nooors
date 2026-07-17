@@ -9,6 +9,7 @@ import Newsletter from "@modules/home/components/newsletter"
 import { Marquee } from "@modules/common/components/noors"
 import { listCollections } from "@lib/data/collections"
 import { getRegion } from "@lib/data/regions"
+import { getSiteContent } from "@lib/data/site-content"
 
 export const metadata: Metadata = {
   // Use the root layout's default title — avoids "Elora ... · Elora" doubling
@@ -39,7 +40,7 @@ export default async function Home(props: {
 
   const region = await getRegion(countryCode)
   const { collections } = await listCollections({
-    fields: "id, handle, title",
+    fields: "id, handle, title, metadata",
   })
 
   if (!collections || !region) {
@@ -47,13 +48,22 @@ export default async function Home(props: {
   }
 
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? ""
+  const socialLinks = (await getSiteContent()).social_links
+  const sameAs = [
+    socialLinks?.instagram,
+    socialLinks?.pinterest,
+    socialLinks?.tiktok,
+  ].filter((url): url is string => Boolean(url))
+
   const orgSchema = {
     "@context": "https://schema.org",
     "@type": "Organization",
     name: "Elora by Harnoor",
     url: baseUrl,
     logo: `${baseUrl}/favicon.svg`,
-    sameAs: [] as string[], // add IG / Pinterest URLs here when live
+    // Sourced from the siteContent module's "social_links" entry — editable
+    // in the admin panel's Site Content page. Empty until set.
+    sameAs,
   }
   const websiteSchema = {
     "@context": "https://schema.org",

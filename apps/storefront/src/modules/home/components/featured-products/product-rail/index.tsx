@@ -8,6 +8,12 @@ import ProductPreview from "@modules/products/components/product-preview"
 /**
  * Elora Featured rail — asymmetric grid: 1 large + 2 small.
  * Falls back to plain grid if fewer than 3 products.
+ *
+ * Heading comes from the collection itself so multiple featured rails don't
+ * all show the same "New Arrivals / The Edit" text — `title` is the
+ * collection's real title; `label`/`sub` fall back to sensible defaults but
+ * can be overridden per-collection via `collection.metadata.rail_label` /
+ * `collection.metadata.rail_subtitle` in the admin panel.
  */
 export default async function ProductRail({
   collection,
@@ -30,13 +36,15 @@ export default async function ProductRail({
 
   const [hero, ...rest] = products
 
+  const metadata = (collection.metadata as Record<string, unknown>) ?? {}
+  const label = (metadata.rail_label as string) || "New Arrivals"
+  const sub =
+    (metadata.rail_subtitle as string) ||
+    "Pieces selected for the discerning eye."
+
   return (
     <section className="featured py-16 lg:py-32">
-      <SectionHeader
-        label="New Arrivals"
-        title="The Edit"
-        sub="Pieces selected for the discerning eye."
-      />
+      <SectionHeader label={label} title={collection.title} sub={sub} />
 
       <div
         className="mt-12 mx-auto"

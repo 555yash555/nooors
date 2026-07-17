@@ -152,6 +152,10 @@
     @apply left-0;
   }
 
+  /* Chrome autofill: keep the ivory background trick (blocks the default
+     yellow) but do NOT re-add a full box border — our inputs are
+     underline-style, so a full border makes them look broken and pushes
+     the text flush against the left edge. */
   input:-webkit-autofill,
   input:-webkit-autofill:hover,
   input:-webkit-autofill:focus,
@@ -161,7 +165,6 @@
   select:-webkit-autofill,
   select:-webkit-autofill:hover,
   select:-webkit-autofill:focus {
-    border: 1px solid var(--ink);
     -webkit-text-fill-color: var(--ink);
     -webkit-box-shadow: 0 0 0 1000px var(--ivory) inset;
     transition: background-color 5000s ease-in-out 0s;

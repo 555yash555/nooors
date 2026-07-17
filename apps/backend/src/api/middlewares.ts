@@ -2,6 +2,8 @@ import { defineMiddlewares } from "@medusajs/framework/http"
 import { Request, Response, NextFunction } from "express"
 import path from "path"
 import fs from "fs"
+import { siteContentMiddlewares } from "./admin/site-content/middlewares"
+import { testimonialMiddlewares } from "./admin/testimonials/middlewares"
 
 /**
  * Serve files from `apps/backend/static/` at `/static/*`.
@@ -45,6 +47,8 @@ const MIME: Record<string, string> = {
 
 export default defineMiddlewares({
   routes: [
+    ...siteContentMiddlewares,
+    ...testimonialMiddlewares,
     {
       matcher: "/static/*",
       method: ["GET", "HEAD"],

@@ -1,18 +1,28 @@
 import { listCategories } from "@lib/data/categories"
 import { listCollections } from "@lib/data/collections"
+import { getSiteContent } from "@lib/data/site-content"
 import { clx } from "@modules/common/components/ui"
 
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 
+const SOCIAL_LABELS: { key: "instagram" | "pinterest" | "tiktok"; label: string; short: string }[] = [
+  { key: "instagram", label: "Instagram", short: "IG" },
+  { key: "pinterest", label: "Pinterest", short: "PI" },
+  { key: "tiktok", label: "TikTok", short: "TK" },
+]
+
 /**
  * Elora Footer — couture dark with gold accents.
- * Categories + collections are dynamic from the backend.
+ * Categories + collections are dynamic from the backend. Social links come
+ * from the `siteContent` module (key: "social_links"), editable in the
+ * admin panel's Site Content page — only icons with a URL set are shown.
  */
 export default async function Footer() {
   const { collections } = await listCollections({
     fields: "id, handle, title",
   })
   const productCategories = await listCategories()
+  const socialLinks = (await getSiteContent()).social_links
 
   return (
     <footer
@@ -134,25 +144,25 @@ export default async function Footer() {
             © {new Date().getFullYear()} Elora. All rights reserved.
           </p>
           <div className="flex gap-3">
-            {[
-              { label: "Instagram", short: "IG" },
-              { label: "Pinterest", short: "PI" },
-              { label: "TikTok", short: "TK" },
-            ].map(({ label, short }) => (
-              <a
-                key={short}
-                href="#"
-                aria-label={label}
-                className={clx(
-                  "w-9 h-9 inline-flex items-center justify-center rounded-full",
-                  "border border-ivory/15 text-[0.65rem] tracking-[0.15em]",
-                  "hover:border-gold hover:text-gold hover:-translate-y-0.5",
-                  "transition-all duration-500 ease-silk"
-                )}
-              >
-                {short}
-              </a>
-            ))}
+            {SOCIAL_LABELS.filter(({ key }) => socialLinks?.[key]).map(
+              ({ key, label, short }) => (
+                <a
+                  key={short}
+                  href={socialLinks![key]}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label={label}
+                  className={clx(
+                    "w-9 h-9 inline-flex items-center justify-center rounded-full",
+                    "border border-ivory/15 text-[0.65rem] tracking-[0.15em]",
+                    "hover:border-gold hover:text-gold hover:-translate-y-0.5",
+                    "transition-all duration-500 ease-silk"
+                  )}
+                >
+                  {short}
+                </a>
+              )
+            )}
           </div>
         </div>
       </div>

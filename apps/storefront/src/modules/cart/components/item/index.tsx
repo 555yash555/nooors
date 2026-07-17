@@ -84,14 +84,14 @@ const Item = ({ item, type = "full", currencyCode }: ItemProps) => {
 
           {/* Mobile-only unit price line */}
           {type === "full" && (
-            <p className="sm:hidden mt-2 font-sans text-xs text-smoke">
+            <div className="sm:hidden mt-2 flex items-baseline gap-1 font-sans text-xs text-smoke">
               <LineItemUnitPrice
                 item={item}
                 style="tight"
                 currencyCode={currencyCode}
-              />{" "}
-              each
-            </p>
+              />
+              <span>each</span>
+            </div>
           )}
         </div>
 

@@ -33,6 +33,10 @@ export const paymentInfoMap: Record<
     title: "Manual Payment",
     icon: <CreditCard />,
   },
+  pp_razorpay_razorpay: {
+    title: "Razorpay (UPI, cards, netbanking)",
+    icon: <CreditCard />,
+  },
   // Add more payment providers here
 }
 
@@ -48,6 +52,10 @@ export const isPaypal = (providerId?: string) => {
 }
 export const isManual = (providerId?: string) => {
   return providerId?.startsWith("pp_system_default")
+}
+
+export const isRazorpay = (providerId?: string) => {
+  return providerId?.startsWith("pp_razorpay")
 }
 
 // Add currencies that don't need to be divided by 100
