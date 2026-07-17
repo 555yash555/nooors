@@ -7,6 +7,7 @@ type OrderItem = {
 }
 
 type OrderForEmail = {
+  id: string
   display_id: number | string
   email: string
   currency_code: string
@@ -72,7 +73,7 @@ export function orderPlacedEmail(
       heading: `Order #${order.display_id} confirmed`,
       bodyHtml,
       ctaLabel: "View your order",
-      ctaUrl: `${storefrontUrl}/account/orders`,
+      ctaUrl: `${storefrontUrl}/order/${order.id}/confirmed`,
     }),
   }
 }

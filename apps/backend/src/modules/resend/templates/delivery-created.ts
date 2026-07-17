@@ -2,6 +2,7 @@ import { renderLayout } from "./layout"
 
 export function deliveryCreatedEmail(
   displayId: number | string,
+  orderId: string,
   storefrontUrl: string
 ): { subject: string; html: string } {
   const bodyHtml = `
@@ -16,7 +17,7 @@ export function deliveryCreatedEmail(
       heading: `Order #${displayId} delivered`,
       bodyHtml,
       ctaLabel: "View your order",
-      ctaUrl: `${storefrontUrl}/account/orders`,
+      ctaUrl: `${storefrontUrl}/order/${orderId}/confirmed`,
     }),
   }
 }

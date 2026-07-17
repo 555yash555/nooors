@@ -18,6 +18,7 @@ export default async function orderCanceledHandler({
 
   const { subject, html } = orderCanceledEmail(
     order.display_id,
+    order.id,
     process.env.STOREFRONT_URL || "http://localhost:8000"
   )
 

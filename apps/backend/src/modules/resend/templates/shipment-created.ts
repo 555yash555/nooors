@@ -2,6 +2,7 @@ import { renderLayout } from "./layout"
 
 export function shipmentCreatedEmail(
   displayId: number | string,
+  orderId: string,
   storefrontUrl: string,
   tracking?: { number?: string | null; url?: string | null } | null
 ): { subject: string; html: string } {
@@ -24,7 +25,7 @@ export function shipmentCreatedEmail(
       heading: `Order #${displayId} has shipped`,
       bodyHtml,
       ctaLabel: "View your order",
-      ctaUrl: `${storefrontUrl}/account/orders`,
+      ctaUrl: `${storefrontUrl}/order/${orderId}/confirmed`,
     }),
   }
 }

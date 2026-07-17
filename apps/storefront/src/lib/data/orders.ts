@@ -5,13 +5,16 @@ import medusaError from "@lib/util/medusa-error"
 import { getAuthHeaders, getCacheOptions } from "./cookies"
 import { HttpTypes } from "@medusajs/types"
 
+// Short shared time-based revalidation, not the per-session cache-tag
+// helper — this endpoint has no auth requirement (reachable by guests via
+// order-confirmation/status emails, not just logged-in customers with a
+// session), and its content changes via admin-side fulfillment actions
+// (shipped/delivered/canceled), not the visitor's own actions. Same bug
+// class as payment-providers/regions/etc — session-tag invalidation can't
+// apply when there's no session in the first place.
 export const retrieveOrder = async (id: string) => {
   const headers = {
     ...(await getAuthHeaders()),
-  }
-
-  const next = {
-    ...(await getCacheOptions("orders")),
   }
 
   return sdk.client
@@ -22,8 +25,7 @@ export const retrieveOrder = async (id: string) => {
           "*payment_collections.payments,*items,*items.metadata,*items.variant,*items.product",
       },
       headers,
-      next,
-      cache: "force-cache",
+      next: { revalidate: 30 },
     })
     .then(({ order }) => order)
     .catch((err) => medusaError(err))

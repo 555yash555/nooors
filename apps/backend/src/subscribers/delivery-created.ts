@@ -28,6 +28,7 @@ export default async function deliveryCreatedHandler({
 
   const { subject, html } = deliveryCreatedEmail(
     order.display_id ?? order.id,
+    order.id,
     process.env.STOREFRONT_URL || "http://localhost:8000"
   )
 

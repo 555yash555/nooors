@@ -38,6 +38,7 @@ export default async function shipmentCreatedHandler({
 
   const { subject, html } = shipmentCreatedEmail(
     order.display_id ?? order.id,
+    order.id,
     process.env.STOREFRONT_URL || "http://localhost:8000",
     label
       ? { number: label.tracking_number, url: label.tracking_url }

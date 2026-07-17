@@ -2,6 +2,7 @@ import { renderLayout } from "./layout"
 
 export function orderCanceledEmail(
   displayId: number | string,
+  orderId: string,
   storefrontUrl: string
 ): { subject: string; html: string } {
   const bodyHtml = `
@@ -15,8 +16,8 @@ export function orderCanceledEmail(
       preheader: `Order #${displayId} has been canceled.`,
       heading: `Order #${displayId} canceled`,
       bodyHtml,
-      ctaLabel: "View your orders",
-      ctaUrl: `${storefrontUrl}/account/orders`,
+      ctaLabel: "View your order",
+      ctaUrl: `${storefrontUrl}/order/${orderId}/confirmed`,
     }),
   }
 }
