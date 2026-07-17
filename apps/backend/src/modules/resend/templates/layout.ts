@@ -75,9 +75,14 @@ export function renderLayout({
 </html>`
 }
 
-export function formatMoney(amount: number, currencyCode: string): string {
+export function formatMoney(amount: unknown, currencyCode: string): string {
+  // Medusa's computed money fields (order.total, item.total, ...) are
+  // BigNumberValue — sometimes a plain number, sometimes a BigNumber-like
+  // object. Number(...) handles both instead of silently producing NaN.
+  const numericAmount = Number(amount ?? 0)
+
   return new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: currencyCode.toUpperCase(),
-  }).format(amount)
+  }).format(Number.isFinite(numericAmount) ? numericAmount : 0)
 }

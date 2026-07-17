@@ -1,6 +1,7 @@
 import type { SubscriberArgs, SubscriberConfig } from "@medusajs/framework"
 import { ContainerRegistrationKeys, Modules } from "@medusajs/framework/utils"
 import { customerWelcomeEmail } from "../modules/resend/templates/customer-welcome"
+import { linkGuestOrdersWorkflow } from "../workflows/link-guest-orders"
 
 export default async function customerCreatedHandler({
   event: { data },
@@ -15,6 +16,27 @@ export default async function customerCreatedHandler({
   // Guest checkout customers don't have an account/password — skip them.
   if (!customer.email || customer.has_account === false) {
     return
+  }
+
+  // A guest checkout under this same email earlier would have created a
+  // separate, accountless customer row holding its own orders — Medusa
+  // doesn't link those to a real account automatically. Re-point them now.
+  const guestCustomers = await customerModuleService.listCustomers({
+    email: customer.email,
+    has_account: false,
+  })
+
+  if (guestCustomers.length) {
+    try {
+      await linkGuestOrdersWorkflow(container).run({
+        input: {
+          guestCustomerIds: guestCustomers.map((c) => c.id),
+          newCustomerId: customer.id,
+        },
+      })
+    } catch (error) {
+      logger.error(`Failed to link guest orders for ${customer.email}`, error)
+    }
   }
 
   const { subject, html } = customerWelcomeEmail(

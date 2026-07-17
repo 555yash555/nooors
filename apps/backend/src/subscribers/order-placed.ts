@@ -10,7 +10,13 @@ export default async function orderPlacedHandler({
   const notificationModuleService = container.resolve(Modules.NOTIFICATION)
   const logger = container.resolve(ContainerRegistrationKeys.LOGGER)
 
+  // `total` (order- and line-item-level) is a computed BigNumber field.
+  // Medusa only runs that computation when a total-ish field (here just
+  // "total" is enough) is present in `select` — it then auto-attaches the
+  // relations (items.tax_lines, items.adjustments, etc.) the calculation
+  // needs. Without a total field in `select`, these silently come back 0.
   const order = await orderModuleService.retrieveOrder(data.id, {
+    select: ["email", "display_id", "currency_code", "total"],
     relations: ["items", "shipping_address"],
   })
 
