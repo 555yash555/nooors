@@ -36,7 +36,13 @@ services:
         value: https://nooors-storefront.vercel.app,https://nooors-backend.onrender.com
       - key: MEDUSA_BACKEND_URL
         value: https://nooors-backend.onrender.com
+      - key: STOREFRONT_URL
+        value: https://nooors-storefront.vercel.app
       - key: NODE_ENV
         value: production
       - key: DISABLE_MEDUSA_ADMIN
         value: "false"
+      - key: RESEND_API_KEY
+        sync: false # paste your Resend API key in the Render dashboard
+      - key: RESEND_FROM_EMAIL
+        sync: false # paste your verified sender address (e.g. orders@yourdomain.com)

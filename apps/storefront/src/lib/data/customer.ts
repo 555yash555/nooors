@@ -247,6 +247,54 @@ export async function confirmEmailVerification(
   }
 }
 
+export type RequestPasswordResetState =
+  | { state: "success" }
+  | { state: "error"; error: string }
+  | null
+
+// Always resolves to "success" regardless of whether the email is registered
+// — this intentionally doesn't reveal which emails have an account.
+export async function requestPasswordReset(
+  _currentState: unknown,
+  formData: FormData
+): Promise<RequestPasswordResetState> {
+  const email = formData.get("email") as string
+
+  try {
+    await sdk.auth.resetPassword("customer", "emailpass", {
+      identifier: email,
+    })
+  } catch {
+    // Swallowed for the same reason as above.
+  }
+
+  return { state: "success" }
+}
+
+export type ResetPasswordState =
+  | { state: "success" }
+  | { state: "error"; error: string }
+  | null
+
+export async function resetPassword(
+  _currentState: unknown,
+  formData: FormData
+): Promise<ResetPasswordState> {
+  const token = formData.get("token") as string
+  const password = formData.get("password") as string
+
+  try {
+    await sdk.auth.updateProvider("customer", "emailpass", { password }, token)
+  } catch (error) {
+    return {
+      state: "error",
+      error: "This reset link is invalid or has expired.",
+    }
+  }
+
+  return { state: "success" }
+}
+
 export async function signout(countryCode: string) {
   await sdk.auth.logout()
 

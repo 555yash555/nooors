@@ -3,8 +3,11 @@
 import { sdk } from "@lib/config"
 import { HttpTypes } from "@medusajs/types"
 
-import { getAuthHeaders, getCacheOptions } from "./cookies"
+import { getAuthHeaders } from "./cookies"
 
+// Short shared time-based revalidation, not the per-session cache-tag
+// helper — variant data (images, etc) is admin-controlled catalog data,
+// same bug class as products/categories/collections.
 export const retrieveVariant = async (
   variant_id: string
 ): Promise<HttpTypes.StoreProductVariant | null> => {
@@ -16,10 +19,6 @@ export const retrieveVariant = async (
     ...authHeaders,
   }
 
-  const next = {
-    ...(await getCacheOptions("variants")),
-  }
-
   return await sdk.client
     .fetch<{ variant: HttpTypes.StoreProductVariant }>(
       `/store/product-variants/${variant_id}`,
@@ -29,8 +28,7 @@ export const retrieveVariant = async (
           fields: "*images",
         },
         headers,
-        next,
-        cache: "force-cache",
+        next: { revalidate: 30 },
       }
     )
     .then(({ variant }) => variant)

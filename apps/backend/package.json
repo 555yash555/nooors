@@ -36,6 +36,7 @@
     "medusa-plugin-razorpay-v2": "^0.1.4",
     "react-i18next": "13.5.0",
     "react-router-dom": "6.30.3",
+    "resend": "^6.17.2",
     "zod": "4.2.0"
   },
   "devDependencies": {
